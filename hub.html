@@ -486,10 +486,13 @@
       <div class="settings-card" style="grid-column:1/-1;">
         <div class="settings-card-header">
           <div class="settings-card-title"><span style="color:var(--green);">⚙</span> CONFIGURAÇÃO DE ATIVOS & TIMEFRAMES</div>
-          <button class="btn btn-add" onclick="showAddRow()">+ NOVO ATIVO</button>
+          <div class="flex-row">
+            <button class="btn btn-add" onclick="showAddRow()">+ NOVO ATIVO</button>
+            <button class="btn" style="border-color:rgba(245,200,66,0.3);color:var(--yellow);font-size:9px;" onclick="resetConfig()">↺ RESET</button>
+          </div>
         </div>
-        <div class="asset-config-row header">
-          <span>ATIVO</span><span>TF PRINCIPAL</span><span>TF CONFIRMAÇÃO</span><span>TF ENTRADA</span><span>SCORE MÍN.</span><span>ON/OFF</span>
+        <div class="asset-config-row header" style="grid-template-columns:130px 1fr 1fr 1fr 70px 52px 36px;">
+          <span>ATIVO</span><span>TF PRINCIPAL</span><span>TF CONFIRMAÇÃO</span><span>TF ENTRADA</span><span>SCORE MÍN.</span><span>ON/OFF</span><span></span>
         </div>
         <div id="assetConfigRows"></div>
         <div class="add-asset-row" id="addRow" style="display:none;">
@@ -1124,15 +1127,47 @@ function copyTGView() {
 }
 
 // ════════════════════════════════════════════════════════
-// BOTÃO ANALISAR
+// BOTÃO ACIONAR ANÁLISE APEX
 // ════════════════════════════════════════════════════════
 function triggerAnalysis() {
   const btn = $('analyzeBtn');
-  if (!btn || btn.classList.contains('blocked')) return;
-  if (activeSignal) {
-    btn.classList.add('loading'); btn.innerHTML = '<span>⟳ ATUALIZANDO...</span>';
-    setTimeout(() => { renderSignal(activeSignal); btn.classList.remove('loading'); btn.innerHTML='<span>✓ ANÁLISE EXIBIDA</span>'; setTimeout(()=>btn.innerHTML='<span>⚡ VER ANÁLISE APEX</span>',2000); }, 600);
+  if (!btn) return;
+
+  // Estado: sem sinal ainda
+  if (!activeSignal) {
+    btn.innerHTML = '<span>⚠ NENHUM SINAL RECEBIDO AINDA</span>';
+    btn.className = 'analyze-btn blocked';
+    setTimeout(() => { btn.innerHTML='<span>⚡ ACIONAR ANÁLISE APEX</span>'; btn.className='analyze-btn'; }, 2500);
+    return;
   }
+
+  let an = {};
+  try { an = JSON.parse(activeSignal.analysis || '{}'); } catch {}
+
+  // Estado: análise já existe → exibe/rola até ela
+  if (an && !an.error && an.estrutura_smc) {
+    btn.innerHTML = '<span>⟳ EXIBINDO ANÁLISE...</span>';
+    btn.className = 'analyze-btn loading';
+    setTimeout(() => {
+      renderSignal(activeSignal);
+      // Rola suavemente até a análise
+      const el = $('analysisEstrutura');
+      if (el) el.scrollIntoView({behavior:'smooth', block:'start'});
+      btn.innerHTML = '<span>✓ ANÁLISE APEX CARREGADA</span>';
+      btn.className = 'analyze-btn';
+      setTimeout(() => { btn.innerHTML='<span>⚡ ACIONAR ANÁLISE APEX</span>'; }, 2500);
+    }, 500);
+    return;
+  }
+
+  // Estado: sinal existe mas análise ainda não processou (raro — backend async)
+  btn.innerHTML = '<span>⟳ ANÁLISE SENDO PROCESSADA...</span>';
+  btn.className = 'analyze-btn loading';
+  setTimeout(() => {
+    manualRefresh(); // força fetch para pegar análise quando pronta
+    btn.innerHTML = '<span>⚡ ACIONAR ANÁLISE APEX</span>';
+    btn.className = 'analyze-btn';
+  }, 2000);
 }
 
 // ════════════════════════════════════════════════════════
@@ -1146,13 +1181,14 @@ function renderSettingsRows() {
   const el = $('assetConfigRows');
   if (!el) return;
   el.innerHTML = assets.map(a => `
-    <div class="asset-config-row">
+    <div class="asset-config-row" style="grid-template-columns:130px 1fr 1fr 1fr 70px 52px 36px;">
       <div class="asset-name-cell">${a.name}<br><span style="font-size:7px;color:var(--text3);font-weight:400;">${a.cls}</span></div>
       ${tfSelect(a.tf_p, `setTF(${a.id},'tf_p',this.value)`)}
       ${tfSelect(a.tf_c, `setTF(${a.id},'tf_c',this.value)`)}
       ${tfSelect(a.tf_e, `setTF(${a.id},'tf_e',this.value)`)}
       <input class="config-input" type="number" value="${a.score}" min="1" max="5" style="text-align:center;" onchange="setTF(${a.id},'score',+this.value)">
       <div class="toggle-wrap"><button class="toggle ${a.on?'on':''}" onclick="toggleA(${a.id},this)"></button></div>
+      <button class="btn" style="padding:3px 6px;font-size:9px;border-color:rgba(255,77,109,0.3);color:var(--red);" onclick="removeAsset(${a.id})" title="Remover">✕</button>
     </div>`).join('');
 
   const pr = $('presetRows');
@@ -1173,17 +1209,31 @@ function renderSettingsRows() {
 
 function setTF(id, field, val) {
   const a = assets.find(x => x.id === id);
-  if (a) { a[field] = val; renderAssetBar(); if (id === activeId) clearDashboard(a); }
+  if (a) {
+    a[field] = val;
+    saveConfig();        // ← persiste
+    renderAssetBar();
+    if (id === activeId) {
+      if (a.latestSignal) renderSignal(a.latestSignal);
+      else clearDashboard(a);
+    }
+  }
 }
 
 function toggleA(id, btn) {
   const a = assets.find(x => x.id === id);
-  if (a) { a.on = !a.on; btn.classList.toggle('on'); renderAssetBar(); }
+  if (a) {
+    a.on = !a.on;
+    btn.classList.toggle('on');
+    saveConfig();        // ← persiste
+    renderAssetBar();
+  }
 }
 
 function applyPreset(cls) {
   const p = presets[cls];
   assets.filter(a => a.cls === cls).forEach(a => { a.tf_p=p.tf_p; a.tf_c=p.tf_c; a.tf_e=p.tf_e; });
+  saveConfig();          // ← persiste
   renderSettingsRows(); renderAssetBar();
 }
 
@@ -1197,7 +1247,69 @@ function addAsset() {
   assets.push({id:Date.now(), name, cls, tf_p:p.tf_p, tf_c:p.tf_c, tf_e:p.tf_e, score:3, on:true, bias:'neutral'});
   $('newAssetInput').value = '';
   $('addRow').style.display = 'none';
+  saveConfig();          // ← persiste
   renderSettingsRows(); renderAssetBar();
+}
+
+function removeAsset(id) {
+  assets = assets.filter(a => a.id !== id);
+  if (activeId === id) activeId = assets.find(a => a.on)?.id || 1;
+  saveConfig();
+  renderSettingsRows(); renderAssetBar();
+}
+
+// ════════════════════════════════════════════════════════
+// PERSISTÊNCIA — localStorage
+// ════════════════════════════════════════════════════════
+const STORAGE_KEY = 'apex_hub_config_v1';
+
+function saveConfig() {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({
+      assets:  assets.map(a => ({
+        id:a.id, name:a.name, cls:a.cls,
+        tf_p:a.tf_p, tf_c:a.tf_c, tf_e:a.tf_e,
+        score:a.score, on:a.on
+      })),
+      presets,
+      activeId
+    }));
+  } catch(e) { console.warn('saveConfig falhou:', e); }
+}
+
+function loadConfig() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) return;
+    const cfg = JSON.parse(raw);
+
+    // Merge assets salvos com os defaults (preserva novos ativos adicionados)
+    if (cfg.assets?.length) {
+      cfg.assets.forEach(saved => {
+        const a = assets.find(x => x.id === saved.id || x.name === saved.name);
+        if (a) {
+          a.tf_p  = saved.tf_p  || a.tf_p;
+          a.tf_c  = saved.tf_c  || a.tf_c;
+          a.tf_e  = saved.tf_e  || a.tf_e;
+          a.score = saved.score || a.score;
+          a.on    = saved.on !== undefined ? saved.on : a.on;
+          a.id    = saved.id; // garante mesmo ID
+        } else {
+          // Ativo customizado que não está nos defaults
+          assets.push({...saved, bias:'neutral'});
+        }
+      });
+    }
+
+    if (cfg.presets) Object.assign(presets, cfg.presets);
+    if (cfg.activeId) activeId = cfg.activeId;
+  } catch(e) { console.warn('loadConfig falhou:', e); }
+}
+
+function resetConfig() {
+  if (!confirm('Resetar todas as configurações para o padrão?')) return;
+  localStorage.removeItem(STORAGE_KEY);
+  location.reload();
 }
 
 // ════════════════════════════════════════════════════════
@@ -1212,6 +1324,7 @@ function tick() {
 // ════════════════════════════════════════════════════════
 // INIT
 // ════════════════════════════════════════════════════════
+loadConfig();        // ← carrega configurações salvas ANTES de renderizar
 renderAssetBar();
 tick();
 setInterval(tick, 30000);
@@ -1219,6 +1332,13 @@ setConn('connecting');
 pollBackend();
 fetchStats();
 setInterval(fetchStats, 60000);
+
+// Botão APEX sempre disponível (não bloqueado por padrão)
+const _initBtn = $('analyzeBtn');
+if (_initBtn) {
+  _initBtn.className = 'analyze-btn';
+  _initBtn.innerHTML = '<span>⚡ ACIONAR ANÁLISE APEX</span>';
+}
 </script>
 </body>
 </html>
