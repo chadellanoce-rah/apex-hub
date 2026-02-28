@@ -27,15 +27,16 @@
   .logo-mark::before{content:'';position:absolute;inset:3px;background:var(--green);opacity:0.08;}
   .logo-text{font-size:17px;font-weight:800;letter-spacing:0.08em;}
   .logo-text span{color:var(--green);}
-  .header-meta{display:flex;align-items:center;gap:18px;font-family:'Space Mono',monospace;font-size:10px;color:var(--text3);}
+  .header-meta{display:flex;align-items:center;gap:14px;font-family:'Space Mono',monospace;font-size:10px;color:var(--text3);}
   .live-dot{display:flex;align-items:center;gap:6px;color:var(--green);}
   .live-dot::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--green);animation:pulse 2s infinite;}
   @keyframes pulse{0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(0,229,160,0.4)}50%{opacity:.7;box-shadow:0 0 0 4px rgba(0,229,160,0)}}
+  .conn-status{display:flex;align-items:center;gap:5px;}
+  .conn-dot{width:6px;height:6px;border-radius:50%;background:var(--yellow);}
   .header-actions{display:flex;gap:5px;}
   .btn{padding:6px 12px;font-family:'Space Mono',monospace;font-size:10px;border:1px solid var(--border2);background:transparent;color:var(--text2);cursor:pointer;letter-spacing:0.05em;transition:all 0.2s;}
   .btn:hover{border-color:var(--green);color:var(--green);}
   .btn.active{border-color:var(--green);color:var(--green);background:rgba(0,229,160,0.05);}
-  .weekend-badge{padding:3px 9px;background:rgba(245,200,66,0.08);border:1px solid rgba(245,200,66,0.2);font-size:9px;font-family:'Space Mono',monospace;color:var(--yellow);}
 
   /* ASSET BAR */
   .asset-bar-wrap{border-bottom:1px solid var(--border);background:var(--bg2);}
@@ -117,11 +118,11 @@
   .signal-badge{padding:6px 16px;font-size:15px;font-weight:800;letter-spacing:0.1em;border-width:2px;border-style:solid;}
   .signal-badge.buy{border-color:var(--green);color:var(--green);background:rgba(0,229,160,0.05);}
   .signal-badge.sell{border-color:var(--red);color:var(--red);background:rgba(255,77,109,0.05);}
+  .signal-badge.neutral{border-color:var(--text3);color:var(--text2);background:transparent;}
   .signal-meta{font-size:9px;font-family:'Space Mono',monospace;color:var(--text2);display:flex;flex-direction:column;gap:3px;}
   .signal-meta strong{color:var(--yellow);font-size:11px;}
   .signal-price-block{margin-left:auto;text-align:right;}
   .current-price{font-size:24px;font-weight:800;font-family:'Space Mono',monospace;}
-  .price-change{font-size:10px;font-family:'Space Mono',monospace;margin-top:2px;}
   .levels-grid{display:grid;gap:7px;margin-bottom:8px;}
   .levels-4{grid-template-columns:1fr 1fr 1fr 1fr;}
   .levels-3{grid-template-columns:1fr 1fr 1fr;}
@@ -156,7 +157,7 @@
   .ind-name{font-size:8px;color:var(--text2);font-family:'Space Mono',monospace;letter-spacing:0.05em;}
   .ind-status{font-size:8px;font-family:'Space Mono',monospace;font-weight:700;padding:2px 6px;}
   .ind-tf-row{display:flex;gap:5px;margin-bottom:5px;}
-  .ind-tf-badge{font-size:7px;font-family:'Space Mono',monospace;padding:2px 5px;border:1px solid var(--border);color:var(--text3);cursor:pointer;transition:all 0.15s;}
+  .ind-tf-badge{font-size:7px;font-family:'Space Mono',monospace;padding:2px 5px;border:1px solid var(--border);color:var(--text3);}
   .ind-tf-badge.active-tf{border-color:var(--blue);color:var(--blue);background:rgba(59,158,255,0.06);}
   .ind-tf-badge.bull-tf{border-color:var(--green);color:var(--green);background:rgba(0,229,160,0.06);}
   .ind-tf-badge.bear-tf{border-color:var(--red);color:var(--red);background:rgba(255,77,109,0.06);}
@@ -166,16 +167,18 @@
 
   /* BOTTOM ROW */
   .bottom-row{display:grid;grid-template-columns:294px 1fr 284px;gap:13px;padding-bottom:20px;}
-  .history-item{padding:8px 0;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px;}
+  .history-item{padding:8px 0;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px;cursor:pointer;}
+  .history-item:hover{background:rgba(255,255,255,0.01);}
   .history-item:last-child{border-bottom:none;}
   .history-dir{width:36px;text-align:center;font-size:8px;font-weight:700;font-family:'Space Mono',monospace;padding:3px 0;}
   .history-info{flex:1;}
   .history-asset{font-size:10px;font-weight:700;}
   .history-tf{font-size:7px;color:var(--text3);font-family:'Space Mono',monospace;}
   .history-result{font-size:9px;font-family:'Space Mono',monospace;}
-  .alert-item{padding:8px 10px;border-left:2px solid var(--border);margin-bottom:6px;background:var(--bg3);}
+  .alert-item{padding:8px 10px;border-left:2px solid var(--border);margin-bottom:6px;background:var(--bg3);cursor:pointer;transition:background 0.15s;}
+  .alert-item:hover{background:rgba(255,255,255,0.02);}
   .alert-item.premium{border-left-color:var(--green);}
-  .alert-item.warning{border-left-color:var(--yellow);}
+  .alert-item.warning{border-left-color:var(--red);}
   .alert-item.info{border-left-color:var(--blue);}
   .alert-title{font-size:10px;font-weight:700;margin-bottom:2px;}
   .alert-desc{font-size:8px;color:var(--text2);font-family:'Space Mono',monospace;}
@@ -210,7 +213,7 @@
   .global-setting-sub{font-size:8px;color:var(--text3);font-family:'Space Mono',monospace;margin-top:2px;}
   .global-setting-ctrl{display:flex;align-items:center;gap:7px;}
   .divider{height:1px;background:var(--border);margin:11px 0;}
-  .scroll-area{max-height:270px;overflow-y:auto;scrollbar-width:thin;scrollbar-color:var(--border2) transparent;}
+  .scroll-area{max-height:320px;overflow-y:auto;scrollbar-width:thin;scrollbar-color:var(--border2) transparent;}
   .flex-row{display:flex;align-items:center;gap:7px;}
   .mt8{margin-top:8px;}
   .tag{display:inline-block;padding:2px 6px;font-size:8px;font-family:'Space Mono',monospace;letter-spacing:0.05em;}
@@ -218,10 +221,31 @@
   .tag-red{background:rgba(255,77,109,0.1);color:var(--red);border:1px solid rgba(255,77,109,0.2);}
   .tag-blue{background:rgba(59,158,255,0.1);color:var(--blue);border:1px solid rgba(59,158,255,0.2);}
   .tag-yellow{background:rgba(245,200,66,0.1);color:var(--yellow);border:1px solid rgba(245,200,66,0.2);}
+
+  /* MULTI-ASSET PANEL */
+  .multi-panel{background:var(--bg2);border:1px solid var(--border);padding:14px;margin-bottom:11px;}
+  .multi-asset-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:8px;}
+  .asset-card{background:var(--bg3);border:1px solid var(--border);padding:11px;cursor:pointer;transition:all 0.2s;position:relative;overflow:hidden;}
+  .asset-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--border);}
+  .asset-card.bull::before{background:var(--green);}
+  .asset-card.bear::before{background:var(--red);}
+  .asset-card:hover{border-color:var(--border2);}
+  .asset-card.selected{border-color:var(--blue);}
+  .asset-card-name{font-size:11px;font-weight:700;font-family:'Space Mono',monospace;margin-bottom:5px;}
+  .asset-card-dir{font-size:9px;font-family:'Space Mono',monospace;font-weight:700;}
+  .asset-card-meta{font-size:7px;color:var(--text3);font-family:'Space Mono',monospace;margin-top:4px;}
+  .asset-card-score{font-size:18px;font-weight:800;font-family:'Space Mono',monospace;float:right;line-height:1;}
+
+  /* HISTORY FULL */
+  .history-full-row{display:grid;grid-template-columns:60px 120px 80px 100px 100px 100px 80px 1fr;gap:8px;align-items:center;padding:9px 0;border-bottom:1px solid var(--border);font-size:10px;cursor:pointer;}
+  .history-full-row:hover{background:rgba(255,255,255,0.01);}
+  .history-full-row.header-row{font-size:8px;color:var(--text3);font-family:'Space Mono',monospace;letter-spacing:0.08em;text-transform:uppercase;cursor:default;}
+  .history-full-row.header-row:hover{background:transparent;}
 </style>
 </head>
 <body>
 
+<!-- ══ HEADER ══ -->
 <header>
   <div class="container">
     <div class="header-inner">
@@ -230,127 +254,147 @@
         <div class="logo-text">APEX <span>HUB</span></div>
       </div>
       <div class="header-meta">
-        <div class="live-dot" id="clockDot">LIVE</div>
-          <div style="display:flex;align-items:center;gap:6px;font-family:'Space Mono',monospace;font-size:10px;">
-            <span id="connectionDot" style="width:6px;height:6px;border-radius:50%;background:var(--yellow);display:inline-block;"></span>
-            <span id="connectionLabel" style="color:var(--yellow);">CONECTANDO...</span>
-          </div>
+        <div class="live-dot">LIVE</div>
+        <div class="conn-status">
+          <span class="conn-dot" id="connDot"></span>
+          <span id="connLabel" style="color:var(--yellow);">CONECTANDO...</span>
+        </div>
         <span id="clock">—</span>
         <span id="globalStats" style="color:var(--text3);font-size:9px;"></span>
-        <span class="weekend-badge">⚠ WEEKEND MODE</span>
       </div>
       <div class="header-actions">
-        <button class="btn active" onclick="showView('dashboard',this)">DASHBOARD</button>
-        <button class="btn" onclick="showView('settings',this)">⚙ CONFIG ATIVOS</button>
-        <button class="btn" onclick="showView('history',this)">HISTÓRICO</button>
-        <button class="btn">TELEGRAM</button>
+        <button class="btn active" id="btnDashboard" onclick="showView('dashboard',this)">DASHBOARD</button>
+        <button class="btn" id="btnAtivos" onclick="showView('ativos',this)">MULTI-ATIVOS</button>
+        <button class="btn" id="btnSettings" onclick="showView('settings',this)">⚙ CONFIG</button>
+        <button class="btn" id="btnHistory" onclick="showView('history',this)">HISTÓRICO</button>
+        <button class="btn" id="btnTelegram" onclick="showView('telegram',this)">✈ TELEGRAM</button>
       </div>
     </div>
   </div>
 </header>
 
+<!-- ══ ASSET BAR ══ -->
 <div class="asset-bar-wrap">
   <div class="container">
     <div class="asset-bar" id="assetBar"></div>
   </div>
 </div>
 
-<!-- ══ DASHBOARD ══ -->
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- VIEW: DASHBOARD                                        -->
+<!-- ══════════════════════════════════════════════════════ -->
 <div class="view active" id="view-dashboard">
   <div class="container">
     <div class="main-grid">
 
-      <!-- LEFT -->
+      <!-- LEFT: Score & Alignment -->
       <div>
         <div class="panel">
           <div class="panel-header">
-            <div class="panel-title"><div class="panel-title-dot" style="background:var(--red)"></div>TF ALIGNMENT</div>
-            <span class="tag tag-red" id="alignTag">ALINHADO BEAR</span>
+            <div class="panel-title"><div class="panel-title-dot" id="alignDotColor" style="background:var(--text3)"></div>TF ALIGNMENT</div>
+            <span class="tag tag-yellow" id="alignTag">AGUARDANDO</span>
           </div>
-          <div class="tf-alignment" id="tfAlignment"></div>
+          <div class="tf-alignment" id="tfAlignment">
+            <div class="tf-col neutral"><div class="tf-col-role">PRINCIPAL</div><div class="tf-col-tf" style="color:var(--text2)">4H</div><div class="tf-col-score">—</div><div class="tf-col-status" style="color:var(--text3)">AGUARD.</div></div>
+            <div class="tf-col neutral"><div class="tf-col-role">CONFIRMAÇÃO</div><div class="tf-col-tf" style="color:var(--text2)">1H</div><div class="tf-col-score">—</div><div class="tf-col-status" style="color:var(--text3)">AGUARD.</div></div>
+            <div class="tf-col neutral"><div class="tf-col-role">ENTRADA</div><div class="tf-col-tf" style="color:var(--text2)">15m</div><div class="tf-col-score">—</div><div class="tf-col-status" style="color:var(--text3)">AGUARD.</div></div>
+          </div>
           <div class="alignment-bar">
-            <span class="alignment-label">ALINHAMENTO PRINCIPAL + CONF.</span>
-            <div class="alignment-dots" id="alignDots"></div>
-            <span class="alignment-result" id="alignResult">3/3 ✓</span>
+            <span class="alignment-label">ALINHAMENTO P+C</span>
+            <div class="alignment-dots" id="alignDots">
+              <div class="alignment-dot" style="background:var(--text3)"></div>
+              <div class="alignment-dot" style="background:var(--text3)"></div>
+            </div>
+            <span class="alignment-result" id="alignResult" style="color:var(--text3)">—</span>
           </div>
           <div class="divider"></div>
           <div class="score-main">
             <div class="score-number" id="scoreNumber" style="color:var(--text3);">—</div>
-            <div class="score-label" id="scoreLabel">/ 5 PONTOS — AGUARDANDO</div>
+            <div class="score-label" id="scoreLabel">/ 5 · AGUARDANDO SINAL</div>
             <div class="score-bar-wrap"><div class="score-bar-fill" id="scoreBarFill" style="width:0%;background:var(--text3);"></div></div>
           </div>
           <div class="score-indicators" id="scoreItems">
             <div class="score-item"><span class="score-item-label">SD Zone</span><span class="score-item-val" style="color:var(--text3);">–</span></div>
-            <div class="score-item"><span class="score-item-label">KEO Sinal</span><span class="score-item-val" style="color:var(--text3);">–</span></div>
+            <div class="score-item"><span class="score-item-label">KEO v7</span><span class="score-item-val" style="color:var(--text3);">–</span></div>
             <div class="score-item"><span class="score-item-label">MM Kernel</span><span class="score-item-val" style="color:var(--text3);">–</span></div>
             <div class="score-item"><span class="score-item-label">Osc Matrix</span><span class="score-item-val" style="color:var(--text3);">–</span></div>
-            <div class="score-item" style="grid-column:1/-1;"><span class="score-item-label">Stoch RSI</span><span class="score-item-val" style="color:var(--text3);">– aguardando</span></div>
+            <div class="score-item" style="grid-column:1/-1"><span class="score-item-label">Stoch RSI</span><span class="score-item-val" style="color:var(--text3);">– aguardando</span></div>
           </div>
           <div style="margin-top:11px;">
             <div class="prob-gauge"><span class="gauge-label">PROB. APEX</span><div class="gauge-track"><div class="gauge-fill" id="probFill" style="width:0%;background:var(--text3);"></div></div><span class="gauge-val" id="probValue" style="color:var(--text2);">—</span></div>
+            <div class="prob-gauge"><span class="gauge-label">ER KAUFMAN</span><div class="gauge-track"><div class="gauge-fill" id="erFill" style="width:0%;background:var(--text3);"></div></div><span class="gauge-val" id="erValue" style="color:var(--text2);">—</span></div>
+            <div class="prob-gauge"><span class="gauge-label">ADX FORÇA</span><div class="gauge-track"><div class="gauge-fill" id="adxFill" style="width:0%;background:var(--text3);"></div></div><span class="gauge-val" id="adxValue" style="color:var(--text2);">—</span></div>
           </div>
-          <button class="analyze-btn" id="analyzeBtn" onclick="triggerAnalysis()"><span>⚡ ACIONAR ANÁLISE APEX</span></button>
+          <button class="analyze-btn blocked" id="analyzeBtn" onclick="triggerAnalysis()"><span>⏳ AGUARDANDO SINAL</span></button>
         </div>
       </div>
 
-      <!-- CENTER -->
+      <!-- CENTER: Signal + Analysis -->
       <div class="panel">
         <div class="panel-header">
-          <div class="panel-title"><div class="panel-title-dot" style="background:var(--red)"></div><span id="signalPanelTitle">ANÁLISE ATIVA — BTC/USDT</span></div>
-          <div class="flex-row"><span class="tag tag-yellow">WEEKEND</span><span class="tag tag-red" id="signalTFTag">4H · OB SELL</span></div>
+          <div class="panel-title"><div class="panel-title-dot" id="signalDotColor" style="background:var(--text3)"></div><span id="signalPanelTitle">ANÁLISE ATIVA — BTC/USDT</span></div>
+          <div class="flex-row">
+            <span id="weekendBadge" style="display:none;" class="tag tag-yellow">⚠ WEEKEND</span>
+            <span class="tag tag-yellow" id="signalTFTag">—</span>
+          </div>
         </div>
-        <div class="signal-hero bear" id="signalHero">
+        <div class="signal-hero neutral" id="signalHero">
           <div class="signal-direction">
-            <div class="signal-badge sell" id="signalBadge">▼ SHORT</div>
+            <div class="signal-badge neutral" id="signalBadge">— AGUARDANDO</div>
             <div class="signal-meta">
-              <strong id="signalAsset">OB SELL ⭐ — Caminho Livre</strong>
-              <span>Score: <span id="signalScore"><strong>—</strong></span> &nbsp;|&nbsp;
-              <span id="signalProbTag" style="display:none;color:var(--green);border:1px solid rgba(0,229,160,0.3);padding:1px 5px;font-size:8px;">PROB —%</span>
-              <span id="signalPathTag" style="display:none;color:var(--yellow);border:1px solid rgba(245,200,66,0.3);padding:1px 5px;font-size:8px;">⭐ PATH CLEAR</span></span>
-              <span>Principal: <span style="color:var(--text);" id="heroTFP">4H</span> &nbsp;|&nbsp; Conf: <span style="color:var(--text);" id="heroTFC">1H ✓</span> &nbsp;|&nbsp; Entrada: <span style="color:var(--text);" id="heroTFE">15m</span></span>
+              <strong id="signalAsset">—</strong>
+              <span>Score: <strong id="signalScoreInline" style="color:var(--text2);">—</strong>
+                <span id="probTag" style="display:none;margin-left:8px;" class="tag tag-green"></span>
+                <span id="pathTag" style="display:none;margin-left:4px;" class="tag tag-yellow">⭐ PATH CLEAR</span>
+              </span>
+              <span>
+                Principal: <span style="color:var(--text);" id="heroTFP">4H</span> &nbsp;|&nbsp;
+                Conf: <span style="color:var(--text);" id="heroTFC">1H</span> &nbsp;|&nbsp;
+                Entrada: <span style="color:var(--text);" id="heroTFE">15m</span>
+              </span>
             </div>
             <div class="signal-price-block">
-              <div class="current-price" id="currentPrice">—</div>
-              <div class="price-change" id="weekendBadge" style="display:none;color:var(--yellow);">⚠ WEEKEND MODE</div>
+              <div class="current-price" id="currentPrice" style="color:var(--text2);">—</div>
+              <div style="font-size:9px;color:var(--text3);font-family:'Space Mono',monospace;margin-top:3px;" id="atrLabel">ATR: —</div>
             </div>
           </div>
           <div class="levels-grid levels-4">
-            <div class="level-card entry"><div class="level-label">ENTRADA</div><div class="level-price" style="color:var(--blue);" id="levelEntry">—</div><div class="level-sub">preço execução</div></div>
+            <div class="level-card entry"><div class="level-label">ENTRADA</div><div class="level-price" style="color:var(--blue);" id="levelEntry">—</div><div class="level-sub">execução</div></div>
             <div class="level-card stop"><div class="level-label">STOP</div><div class="level-price" style="color:var(--red);" id="levelStop">—</div><div class="level-sub">invalidação</div></div>
-            <div class="level-card tp1"><div class="level-label">TP 1</div><div class="level-price" style="color:rgba(0,229,160,0.55);" id="levelTP1">—</div><div class="level-sub">alvo parcial</div></div>
-            <div class="level-card tp2"><div class="level-label">TP 2</div><div class="level-price" style="color:rgba(0,229,160,0.78);" id="levelTP2">—</div><div class="level-sub">alvo principal</div></div>
+            <div class="level-card tp1"><div class="level-label">TP 1</div><div class="level-price" style="color:rgba(0,229,160,0.55);" id="levelTP1">—</div><div class="level-sub">parcial</div></div>
+            <div class="level-card tp2"><div class="level-label">TP 2</div><div class="level-price" style="color:rgba(0,229,160,0.78);" id="levelTP2">—</div><div class="level-sub">principal</div></div>
           </div>
           <div class="levels-grid levels-3">
             <div class="level-card tp3"><div class="level-label">TP 3</div><div class="level-price" style="color:var(--green);" id="levelTP3">—</div><div class="level-sub">extensão</div></div>
-            <div class="level-card rr"><div class="level-label">R/R</div><div class="level-price" style="color:var(--purple);" id="levelRR">—</div><div class="level-sub">risco retorno</div></div>
-            <div class="level-card trail"><div class="level-label">ANÁLISE</div><div class="level-price" style="color:var(--yellow);font-size:10px;" id="levelBias">—</div><div class="level-sub">viés Claude</div></div>
+            <div class="level-card rr"><div class="level-label">R/R</div><div class="level-price" style="color:var(--purple);" id="levelRR">—</div><div class="level-sub">risco/retorno</div></div>
+            <div class="level-card trail"><div class="level-label">VIÉS</div><div class="level-price" style="color:var(--yellow);font-size:10px;" id="levelBias">—</div><div class="level-sub">Claude APEX</div></div>
           </div>
         </div>
         <div class="scroll-area">
           <div class="analysis-block">
             <div class="analysis-block-title">Estrutura & Liquidez SMC</div>
-            <div class="analysis-text" id="analysisEstrutura">Aguardando sinal do indicador...</div>
+            <div class="analysis-text" id="analysisEstrutura" style="color:var(--text3);">Aguardando sinal do indicador para gerar análise...</div>
           </div>
           <div class="analysis-block">
             <div class="analysis-block-title">Microestrutura · Money Flow · Kernel</div>
-            <div class="analysis-text" id="analysisMicro">—</div>
+            <div class="analysis-text" id="analysisMicro" style="color:var(--text3);">—</div>
           </div>
           <div class="analysis-block">
             <div class="analysis-block-title">Gestão de Risco</div>
-            <div class="analysis-text" id="analysisRisco">—</div>
+            <div class="analysis-text" id="analysisRisco" style="color:var(--text3);">—</div>
           </div>
           <div class="analysis-block">
             <div class="analysis-block-title">Confluências Detectadas</div>
-            <div id="confluenceList"><div style="color:var(--text3);font-size:10px;">Aguardando análise...</div></div>
+            <div id="confluenceList" style="color:var(--text3);font-size:10px;">—</div>
           </div>
           <div class="analysis-block">
             <div class="analysis-block-title">Alertas de Risco</div>
-            <div id="alertsList"></div>
+            <div id="alertsList" style="color:var(--text3);font-size:10px;">—</div>
           </div>
           <div class="telegram-block">
             <div class="telegram-header">✈ RESUMO TELEGRAM</div>
             <button class="tg-copy-btn" onclick="copyTG()">COPIAR</button>
-            <div class="telegram-content" id="tgContent">Aguardando sinal...</div>
+            <div class="telegram-content" id="tgContent" style="color:var(--text3);">Aguardando sinal...</div>
           </div>
         </div>
       </div>
@@ -359,57 +403,83 @@
       <div class="panel">
         <div class="panel-header">
           <div class="panel-title"><div class="panel-title-dot" style="background:var(--blue)"></div>INDICADORES</div>
-          <span style="font-size:8px;color:var(--text3);font-family:'Space Mono',monospace;" id="indTFLabel">Principal: 4H</span>
+          <span style="font-size:8px;color:var(--text3);font-family:'Space Mono',monospace;" id="indTFLabel">—</span>
         </div>
         <div class="ind-row">
-          <div class="ind-header"><span class="ind-name">01 · MTF SD ZONES</span><span class="ind-status" id="indStatus1" style="color:var(--text3);background:rgba(139,154,176,0.08);">AGUARD.</span></div>
-          <div class="ind-tf-row" id="ind1"></div>
+          <div class="ind-header"><span class="ind-name">01 · MTF SD ZONES</span><span class="ind-status" id="indStatus1" style="color:var(--text3);background:rgba(139,154,176,0.06);">–</span></div>
+          <div class="ind-tf-row" id="ind1"><div class="ind-tf-badge active-tf">4H</div></div>
           <div class="ind-metrics"><div class="ind-metric" id="indMetric1">—</div></div>
         </div>
         <div class="ind-row">
-          <div class="ind-header"><span class="ind-name">02 · RAH KEO v7</span><span class="ind-status" id="indStatus2" style="color:var(--text3);background:rgba(139,154,176,0.08);">AGUARD.</span></div>
-          <div class="ind-tf-row" id="ind2"></div>
+          <div class="ind-header"><span class="ind-name">02 · RAH KEO v7</span><span class="ind-status" id="indStatus2" style="color:var(--text3);background:rgba(139,154,176,0.06);">–</span></div>
+          <div class="ind-tf-row" id="ind2"><div class="ind-tf-badge active-tf">4H</div></div>
           <div class="ind-metrics"><div class="ind-metric" id="indMetric2">—</div></div>
         </div>
         <div class="ind-row">
-          <div class="ind-header"><span class="ind-name">03 · MM V4 KERNEL</span><span class="ind-status" id="indStatus3" style="color:var(--text3);background:rgba(139,154,176,0.08);">AGUARD.</span></div>
-          <div class="ind-tf-row" id="ind3"></div>
+          <div class="ind-header"><span class="ind-name">03 · MM V4 KERNEL</span><span class="ind-status" id="indStatus3" style="color:var(--text3);background:rgba(139,154,176,0.06);">–</span></div>
+          <div class="ind-tf-row" id="ind3"><div class="ind-tf-badge active-tf">4H</div></div>
           <div class="ind-metrics"><div class="ind-metric" id="indMetric3">—</div></div>
         </div>
         <div class="ind-row">
-          <div class="ind-header"><span class="ind-name">04 · OSC MATRIX</span><span class="ind-status" id="indStatus4" style="color:var(--text3);background:rgba(139,154,176,0.08);">AGUARD.</span></div>
-          <div class="ind-tf-row" id="ind4"></div>
+          <div class="ind-header"><span class="ind-name">04 · OSC MATRIX</span><span class="ind-status" id="indStatus4" style="color:var(--text3);background:rgba(139,154,176,0.06);">–</span></div>
+          <div class="ind-tf-row" id="ind4"><div class="ind-tf-badge active-tf">4H</div></div>
           <div class="ind-metrics"><div class="ind-metric" id="indMetric4">—</div></div>
         </div>
         <div class="ind-row">
-          <div class="ind-header"><span class="ind-name">05 · STOCH RSI</span><span class="ind-status" id="indStatus5" style="color:var(--text3);background:rgba(139,154,176,0.08);">AGUARD.</span></div>
-          <div class="ind-tf-row" id="ind5"></div>
+          <div class="ind-header"><span class="ind-name">05 · STOCH RSI</span><span class="ind-status" id="indStatus5" style="color:var(--text3);background:rgba(139,154,176,0.06);">–</span></div>
+          <div class="ind-tf-row" id="ind5"><div class="ind-tf-badge active-tf">4H</div></div>
           <div class="ind-metrics"><div class="ind-metric" id="indMetric5">—</div></div>
         </div>
       </div>
     </div>
 
-    <!-- BOTTOM -->
+    <!-- BOTTOM ROW -->
     <div class="bottom-row">
       <div class="panel">
-        <div class="panel-header"><div class="panel-title"><div class="panel-title-dot" style="background:var(--yellow)"></div>ÚLTIMOS SINAIS</div><button class="btn" style="font-size:9px;padding:3px 8px;" onclick="manualRefresh()">↻ ATUALIZAR</button></div>
-        <div id="historyList">
+        <div class="panel-header">
+          <div class="panel-title"><div class="panel-title-dot" style="background:var(--yellow)"></div>ÚLTIMOS SINAIS</div>
+          <button class="btn" style="font-size:9px;padding:3px 8px;" onclick="manualRefresh()">↻</button>
+        </div>
+        <div id="recentSignals">
           <div style="padding:18px;text-align:center;font-size:10px;color:var(--text3);font-family:'Space Mono',monospace;">Conectando ao backend...</div>
         </div>
       </div>
       <div class="panel" style="grid-column:2/4;">
-        <div class="panel-header"><div class="panel-title"><div class="panel-title-dot" style="background:var(--orange)"></div>ALERTAS DO WEBHOOK</div></div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:9px;">
-        <div id="alertsFeed" style="display:grid;grid-template-columns:1fr 1fr;gap:9px;grid-column:1/-1;">
-            <div style="padding:18px;text-align:center;font-size:10px;color:var(--text3);font-family:'Space Mono',monospace;grid-column:1/-1;">Aguardando sinais do TradingView...</div>
-          </div>
+        <div class="panel-header">
+          <div class="panel-title"><div class="panel-title-dot" style="background:var(--orange)"></div>ALERTAS DO WEBHOOK</div>
+          <span id="alertCount" class="tag tag-blue" style="display:none;"></span>
+        </div>
+        <div id="alertsFeed" style="display:grid;grid-template-columns:1fr 1fr;gap:9px;">
+          <div style="grid-column:1/-1;padding:18px;text-align:center;font-size:10px;color:var(--text3);font-family:'Space Mono',monospace;">Aguardando sinais do TradingView...</div>
         </div>
       </div>
     </div>
   </div>
 </div>
 
-<!-- ══ SETTINGS ══ -->
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- VIEW: MULTI-ATIVOS                                     -->
+<!-- ══════════════════════════════════════════════════════ -->
+<div class="view" id="view-ativos">
+  <div class="container" style="padding:16px 24px;">
+    <div class="panel">
+      <div class="panel-header">
+        <div class="panel-title"><div class="panel-title-dot" style="background:var(--green)"></div>VISÃO MULTI-ATIVOS</div>
+        <div class="flex-row">
+          <span style="font-size:9px;color:var(--text3);font-family:'Space Mono',monospace;">Clique num ativo para ver no dashboard</span>
+          <button class="btn" style="font-size:9px;" onclick="manualRefresh()">↻ ATUALIZAR</button>
+        </div>
+      </div>
+      <div class="multi-asset-grid" id="multiAssetGrid">
+        <div style="grid-column:1/-1;padding:24px;text-align:center;font-size:10px;color:var(--text3);font-family:'Space Mono',monospace;">Carregando sinais...</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- VIEW: SETTINGS                                         -->
+<!-- ══════════════════════════════════════════════════════ -->
 <div class="view" id="view-settings">
   <div class="container">
     <div class="settings-grid">
@@ -423,7 +493,7 @@
         </div>
         <div id="assetConfigRows"></div>
         <div class="add-asset-row" id="addRow" style="display:none;">
-          <input type="text" id="newAssetInput" placeholder="Ex: GBP/JPY, SILVER, RTY1!" />
+          <input id="newAssetInput" type="text" placeholder="ex: SOL/USDT" style="text-transform:uppercase;">
           <select class="config-select" id="newClass" style="width:120px;"><option>Crypto</option><option>Forex</option><option>Índice</option><option>Commodity</option></select>
           <button class="btn btn-add" onclick="addAsset()">CONFIRMAR</button>
           <button class="btn" onclick="document.getElementById('addRow').style.display='none'">CANCELAR</button>
@@ -432,82 +502,109 @@
 
       <div class="settings-card">
         <div class="settings-card-header"><div class="settings-card-title"><span style="color:var(--blue);">◈</span> CONFIGURAÇÕES GERAIS</div></div>
-        <div class="global-setting-row"><div><div class="global-setting-label">Score mínimo para acionar Claude</div><div class="global-setting-sub">abaixo disso apenas registra no dashboard</div></div><input class="config-input" type="number" value="3" min="1" max="5" style="width:50px;text-align:center;"></div>
-        <div class="global-setting-row"><div><div class="global-setting-label">Exigir alinhamento de TFs</div><div class="global-setting-sub">principal + confirmação devem coincidir</div></div><button class="toggle on" onclick="this.classList.toggle('on')"></button></div>
-        <div class="global-setting-row"><div><div class="global-setting-label">Weekend Mode automático</div><div class="global-setting-sub">detecta sex–dom e amplia stops</div></div><button class="toggle on" onclick="this.classList.toggle('on')"></button></div>
-        <div class="global-setting-row"><div><div class="global-setting-label">Disparar Telegram automaticamente</div><div class="global-setting-sub">envia ao canal quando score atingido</div></div><button class="toggle" onclick="this.classList.toggle('on')"></button></div>
-        <div class="global-setting-row"><div><div class="global-setting-label">Canal Telegram</div></div><input class="config-input" type="text" value="@meu_canal" style="width:130px;"></div>
+        <div class="global-setting-row"><div><div class="global-setting-label">Score mínimo para acionar análise</div><div class="global-setting-sub">abaixo disso apenas registra no dashboard</div></div><input class="config-input" id="cfgScoreMin" type="number" value="3" min="1" max="5" style="width:50px;text-align:center;"></div>
+        <div class="global-setting-row"><div><div class="global-setting-label">Exigir alinhamento de TFs</div><div class="global-setting-sub">principal + confirmação devem coincidir</div></div><button class="toggle on" id="cfgAlignment" onclick="this.classList.toggle('on')"></button></div>
+        <div class="global-setting-row"><div><div class="global-setting-label">Weekend Mode automático</div><div class="global-setting-sub">detecta sex–dom e amplia stops</div></div><button class="toggle on" id="cfgWeekend" onclick="this.classList.toggle('on')"></button></div>
+        <div class="global-setting-row"><div><div class="global-setting-label">Disparar Telegram automaticamente</div><div class="global-setting-sub">envia ao canal quando score atingido</div></div><button class="toggle" id="cfgTelegram" onclick="this.classList.toggle('on')"></button></div>
+        <div class="global-setting-row"><div><div class="global-setting-label">URL do webhook (Railway)</div></div><input class="config-input" type="text" value="https://web-production-947e32.up.railway.app/webhook" style="width:340px;font-size:9px;"></div>
       </div>
 
       <div class="settings-card">
         <div class="settings-card-header"><div class="settings-card-title"><span style="color:var(--yellow);">◈</span> PRESETS DE TF POR CLASSE</div><span style="font-size:8px;color:var(--text3);font-family:'Space Mono',monospace;">aplicar em lote</span></div>
         <div id="presetRows"></div>
         <div style="margin-top:12px;padding-top:10px;border-top:1px solid var(--border);font-size:8px;color:var(--text3);font-family:'Space Mono',monospace;line-height:1.7;">
-          Presets aplicam o padrão para todos os ativos da classe.<br>Config individuais sempre sobrescrevem o preset.
+          Presets aplicam o padrão para todos os ativos da classe.<br>Configs individuais sobrescrevem o preset.
         </div>
       </div>
     </div>
   </div>
 </div>
 
-<!-- ══ HISTORY ══ -->
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- VIEW: HISTÓRICO                                        -->
+<!-- ══════════════════════════════════════════════════════ -->
 <div class="view" id="view-history">
   <div class="container" style="padding:16px 24px;">
     <div class="panel">
-      <div class="panel-header"><div class="panel-title"><div class="panel-title-dot" style="background:var(--yellow)"></div>HISTÓRICO COMPLETO</div><div class="flex-row"><select class="config-select" style="width:90px;"><option>Todos</option><option>BUY</option><option>SELL</option></select><select class="config-select" style="width:120px;"><option>Todos ativos</option><option>BTC/USDT</option></select></div></div>
-      <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:9px;margin-bottom:14px;">
-        <div style="padding:13px;background:var(--bg3);border:1px solid var(--border);text-align:center;"><div style="font-size:20px;font-weight:800;font-family:'Space Mono',monospace;color:var(--green);">73%</div><div style="font-size:8px;color:var(--text3);margin-top:3px;font-family:'Space Mono',monospace;">WIN RATE</div></div>
-        <div style="padding:13px;background:var(--bg3);border:1px solid var(--border);text-align:center;"><div style="font-size:20px;font-weight:800;font-family:'Space Mono',monospace;">47</div><div style="font-size:8px;color:var(--text3);margin-top:3px;font-family:'Space Mono',monospace;">TOTAL TRADES</div></div>
-        <div style="padding:13px;background:var(--bg3);border:1px solid var(--border);text-align:center;"><div style="font-size:20px;font-weight:800;font-family:'Space Mono',monospace;color:var(--green);">2.4</div><div style="font-size:8px;color:var(--text3);margin-top:3px;font-family:'Space Mono',monospace;">PROFIT FACTOR</div></div>
-        <div style="padding:13px;background:var(--bg3);border:1px solid var(--border);text-align:center;"><div style="font-size:20px;font-weight:800;font-family:'Space Mono',monospace;color:var(--green);">+0.31R</div><div style="font-size:8px;color:var(--text3);margin-top:3px;font-family:'Space Mono',monospace;">EXPECTATIVA</div></div>
-        <div style="padding:13px;background:var(--bg3);border:1px solid var(--border);text-align:center;"><div style="font-size:20px;font-weight:800;font-family:'Space Mono',monospace;color:var(--blue);">34/13</div><div style="font-size:8px;color:var(--text3);margin-top:3px;font-family:'Space Mono',monospace;">WIN / LOSS</div></div>
+      <div class="panel-header">
+        <div class="panel-title"><div class="panel-title-dot" style="background:var(--yellow)"></div>HISTÓRICO COMPLETO</div>
+        <div class="flex-row">
+          <select class="config-select" id="histFilterDir" style="width:90px;" onchange="renderHistory()"><option value="">Todos</option><option value="buy">BUY</option><option value="sell">SELL</option></select>
+          <select class="config-select" id="histFilterAsset" style="width:130px;" onchange="renderHistory()"><option value="">Todos ativos</option></select>
+          <button class="btn" onclick="manualRefresh()">↻ ATUALIZAR</button>
+        </div>
       </div>
-      <div style="font-size:10px;color:var(--text2);font-family:'Space Mono',monospace;padding:18px;text-align:center;border:1px dashed var(--border);">Histórico detalhado disponível após integração com o backend.<br>Os trades serão registrados automaticamente via webhook.</div>
+      <!-- Stats -->
+      <div id="histStats" style="display:grid;grid-template-columns:repeat(5,1fr);gap:9px;margin-bottom:14px;"></div>
+      <!-- Tabela -->
+      <div class="history-full-row header-row">
+        <span>DIR.</span><span>ATIVO</span><span>SCORE</span><span>ENTRADA</span><span>STOP</span><span>TP1</span><span>PROB</span><span>DATA/HORA</span>
+      </div>
+      <div id="historyTableBody"></div>
     </div>
   </div>
 </div>
 
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- VIEW: TELEGRAM                                         -->
+<!-- ══════════════════════════════════════════════════════ -->
+<div class="view" id="view-telegram">
+  <div class="container" style="padding:16px 24px;">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:13px;">
+      <div class="panel">
+        <div class="panel-header"><div class="panel-title"><div class="panel-title-dot" style="background:var(--blue)"></div>ÚLTIMO RESUMO GERADO</div></div>
+        <div class="telegram-block" style="margin-top:0;">
+          <div class="telegram-header">✈ MENSAGEM PARA O CANAL</div>
+          <button class="tg-copy-btn" onclick="copyTGView()">COPIAR</button>
+          <div class="telegram-content" id="tgViewContent" style="color:var(--text3);">Aguardando sinal com análise do Claude...</div>
+        </div>
+        <div style="margin-top:11px;font-size:9px;color:var(--text3);font-family:'Space Mono',monospace;line-height:1.8;">
+          Esta mensagem é gerada automaticamente pelo Claude APEX após cada sinal.<br>
+          Configure o bot e o canal nas variáveis de ambiente do Railway para envio automático.
+        </div>
+      </div>
+      <div class="panel">
+        <div class="panel-header"><div class="panel-title"><div class="panel-title-dot" style="background:var(--yellow)"></div>ÚLTIMOS SINAIS ENVIADOS</div></div>
+        <div id="tgHistory" style="color:var(--text3);font-size:10px;text-align:center;padding:18px;">Carregando...</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- JAVASCRIPT                                             -->
+<!-- ══════════════════════════════════════════════════════ -->
 <script>
-// ══════════════════════════════════════════════════════
-// APEX HUB — Frontend v2.0 — Conectado ao Railway
-// ══════════════════════════════════════════════════════
+// ════════════════════════════════════════════════════════
+// APEX HUB — Frontend v3.0
+// ════════════════════════════════════════════════════════
 
 const API_URL = 'https://web-production-947e32.up.railway.app';
-const POLL_INTERVAL = 15000; // 15s
+const POLL_MS  = 15000;
 
-// ── Busca stats globais e exibe no header
-async function fetchStats() {
-  try {
-    const res = await fetch(`${API_URL}/api/stats`, {signal: AbortSignal.timeout(6000)});
-    if (!res.ok) return;
-    const data = await res.json();
-    const el = document.getElementById('globalStats');
-    if (el) el.textContent = `${data.total} sinais · ${data.assets?.length || 0} ativos · Prob média ${data.avg_prob}%`;
-  } catch(e) {}
-}
-
-const TF_OPT = ['1m','3m','5m','15m','30m','1H','2H','4H','6H','12H','1D','1W'];
+const TF_OPT  = ['1m','3m','5m','15m','30m','1H','2H','4H','6H','12H','1D','1W'];
 const CLASSES = ['Crypto','Forex','Índice','Commodity'];
 
-// ── Estado da conexão
-let connectionStatus = 'connecting'; // connecting | online | offline
-let lastSignals = []; // cache dos últimos sinais do backend
-let activeSignal = null; // sinal ativo no dashboard
-let pollTimer = null;
+// ── Estado global
+let lastSignals   = [];
+let activeSignal  = null;
+let activeId      = 1;
+let pollTimer     = null;
 
+// ── Lista de ativos monitorados
 let assets = [
-  {id:1,name:'BTC/USDT',cls:'Crypto',   tf_p:'4H', tf_c:'1H', tf_e:'15m',score:3,on:true, bias:'neutral'},
-  {id:2,name:'ETH/USDT',cls:'Crypto',   tf_p:'4H', tf_c:'1H', tf_e:'15m',score:3,on:true, bias:'neutral'},
-  {id:3,name:'EUR/USD', cls:'Forex',    tf_p:'4H', tf_c:'1H', tf_e:'15m',score:3,on:true, bias:'neutral'},
-  {id:4,name:'GBP/USD', cls:'Forex',    tf_p:'4H', tf_c:'1H', tf_e:'15m',score:3,on:true, bias:'neutral'},
-  {id:5,name:'USD/JPY', cls:'Forex',    tf_p:'4H', tf_c:'1H', tf_e:'15m',score:3,on:true, bias:'neutral'},
-  {id:6,name:'AUD/USD', cls:'Forex',    tf_p:'4H', tf_c:'1H', tf_e:'15m',score:3,on:false,bias:'neutral'},
-  {id:7,name:'USD/CAD', cls:'Forex',    tf_p:'4H', tf_c:'1H', tf_e:'15m',score:3,on:false,bias:'neutral'},
-  {id:8,name:'USD/CHF', cls:'Forex',    tf_p:'4H', tf_c:'1H', tf_e:'15m',score:3,on:false,bias:'neutral'},
-  {id:9,name:'XAU/USD', cls:'Commodity',tf_p:'4H', tf_c:'1H', tf_e:'15m',score:3,on:true, bias:'neutral'},
-  {id:10,name:'SP500',  cls:'Índice',   tf_p:'1H', tf_c:'15m',tf_e:'5m', score:3,on:true, bias:'neutral'},
-  {id:11,name:'NQ100',  cls:'Índice',   tf_p:'1H', tf_c:'15m',tf_e:'5m', score:3,on:true, bias:'neutral'},
-  {id:12,name:'DJ30',   cls:'Índice',   tf_p:'1H', tf_c:'15m',tf_e:'5m', score:3,on:true, bias:'neutral'},
+  {id:1,  name:'BTC/USDT', cls:'Crypto',    tf_p:'4H', tf_c:'1H',  tf_e:'15m', score:3, on:true,  bias:'neutral'},
+  {id:2,  name:'ETH/USDT', cls:'Crypto',    tf_p:'4H', tf_c:'1H',  tf_e:'15m', score:3, on:true,  bias:'neutral'},
+  {id:3,  name:'EUR/USD',  cls:'Forex',     tf_p:'4H', tf_c:'1H',  tf_e:'15m', score:3, on:true,  bias:'neutral'},
+  {id:4,  name:'GBP/USD',  cls:'Forex',     tf_p:'4H', tf_c:'1H',  tf_e:'15m', score:3, on:true,  bias:'neutral'},
+  {id:5,  name:'USD/JPY',  cls:'Forex',     tf_p:'4H', tf_c:'1H',  tf_e:'15m', score:3, on:true,  bias:'neutral'},
+  {id:6,  name:'AUD/USD',  cls:'Forex',     tf_p:'4H', tf_c:'1H',  tf_e:'15m', score:3, on:false, bias:'neutral'},
+  {id:7,  name:'USD/CAD',  cls:'Forex',     tf_p:'4H', tf_c:'1H',  tf_e:'15m', score:3, on:false, bias:'neutral'},
+  {id:8,  name:'USD/CHF',  cls:'Forex',     tf_p:'4H', tf_c:'1H',  tf_e:'15m', score:3, on:false, bias:'neutral'},
+  {id:9,  name:'XAU/USD',  cls:'Commodity', tf_p:'4H', tf_c:'1H',  tf_e:'15m', score:3, on:true,  bias:'neutral'},
+  {id:10, name:'SP500',    cls:'Índice',    tf_p:'1H', tf_c:'15m', tf_e:'5m',  score:3, on:true,  bias:'neutral'},
+  {id:11, name:'NQ100',    cls:'Índice',    tf_p:'1H', tf_c:'15m', tf_e:'5m',  score:3, on:true,  bias:'neutral'},
+  {id:12, name:'DJ30',     cls:'Índice',    tf_p:'1H', tf_c:'15m', tf_e:'5m',  score:3, on:true,  bias:'neutral'},
 ];
 
 let presets = {
@@ -517,131 +614,557 @@ let presets = {
   'Commodity': {tf_p:'4H', tf_c:'1H',  tf_e:'15m'},
 };
 
-let activeId = 1;
+// ════════════════════════════════════════════════════════
+// NAVEGAÇÃO ENTRE VIEWS
+// ════════════════════════════════════════════════════════
+function showView(name, btn) {
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  document.querySelectorAll('.header-actions .btn').forEach(b => b.classList.remove('active'));
+  const view = document.getElementById('view-' + name);
+  if (view) view.classList.add('active');
+  if (btn)  btn.classList.add('active');
 
+  // Ações específicas por view
+  if (name === 'settings') renderSettingsRows();
+  if (name === 'history')  renderHistory();
+  if (name === 'ativos')   renderMultiAssets();
+  if (name === 'telegram') renderTelegramView();
+}
+
+// ════════════════════════════════════════════════════════
+// ASSET BAR
+// ════════════════════════════════════════════════════════
+function renderAssetBar() {
+  const bar = document.getElementById('assetBar');
+  bar.innerHTML = assets.filter(a => a.on).map(a => {
+    const bc = a.bias==='bull'?'badge-bull':a.bias==='bear'?'badge-bear':'badge-neutral';
+    const bt = a.bias==='bull'?'BUY':a.bias==='bear'?'SELL':'–';
+    const ac = a.id===activeId ? (a.bias==='bear'?'active bear':'active') : '';
+    return `<div class="asset-pill ${ac}" onclick="selectAsset(${a.id})">
+      ${a.name}<span class="asset-badge ${bc}">${bt}</span><span class="tf-mini">${a.tf_p}</span>
+    </div>`;
+  }).join('');
+}
+
+function selectAsset(id) {
+  activeId = id;
+  renderAssetBar();
+  const a = assets.find(x => x.id === id);
+  if (a?.latestSignal) {
+    renderSignal(a.latestSignal);
+  } else {
+    clearDashboard(a);
+  }
+  // Se estiver na view de ativos, volta pro dashboard
+  showView('dashboard', document.getElementById('btnDashboard'));
+}
+
+// ════════════════════════════════════════════════════════
+// INTEGRAÇÃO COM RAILWAY — POLLING
+// ════════════════════════════════════════════════════════
+function setConn(status) {
+  const dot   = document.getElementById('connDot');
+  const label = document.getElementById('connLabel');
+  if (!dot) return;
+  const map = {
+    connecting: ['var(--yellow)', 'CONECTANDO...', 'var(--yellow)'],
+    online:     ['var(--green)',  'BACKEND ONLINE', 'var(--green)'],
+    offline:    ['var(--red)',    'BACKEND OFFLINE', 'var(--red)'],
+  };
+  const [bg, text, color] = map[status] || map.connecting;
+  dot.style.background   = bg;
+  label.textContent      = text;
+  label.style.color      = color;
+}
+
+async function fetchSignals() {
+  try {
+    const r = await fetch(`${API_URL}/signals?limit=100`, {signal: AbortSignal.timeout(8000)});
+    if (!r.ok) throw new Error(r.status);
+    const d = await r.json();
+    setConn('online');
+    return d.signals || [];
+  } catch {
+    setConn('offline');
+    return null;
+  }
+}
+
+async function fetchStats() {
+  try {
+    const r = await fetch(`${API_URL}/api/stats`, {signal: AbortSignal.timeout(6000)});
+    if (!r.ok) return;
+    const d = await r.json();
+    const el = document.getElementById('globalStats');
+    if (el) el.textContent = `${d.total} sinais · ${d.assets?.length || 0} ativos · Prob média ${d.avg_prob}%`;
+  } catch {}
+}
+
+async function pollBackend() {
+  const signals = await fetchSignals();
+  if (signals) applySignals(signals);
+  pollTimer = setTimeout(pollBackend, POLL_MS);
+}
+
+function manualRefresh() {
+  setConn('connecting');
+  clearTimeout(pollTimer);
+  pollBackend();
+}
+
+function applySignals(signals) {
+  lastSignals = signals;
+
+  // Mapeia sinal mais recente por ativo
+  const byAsset = {};
+  signals.forEach(s => { if (!byAsset[s.asset]) byAsset[s.asset] = s; });
+
+  assets.forEach(a => {
+    const s = byAsset[a.name];
+    if (s) {
+      a.bias = s.direction === 'buy' ? 'bull' : s.direction === 'sell' ? 'bear' : 'neutral';
+      a.latestSignal = s;
+    }
+  });
+
+  renderAssetBar();
+
+  // Atualiza dashboard com sinal do ativo ativo
+  const active = assets.find(x => x.id === activeId);
+  if (active?.latestSignal) renderSignal(active.latestSignal);
+
+  // Atualiza painéis inferiores
+  renderRecentSignals(signals.slice(0, 8));
+  renderAlertsFeed(signals.slice(0, 8));
+  renderMultiAssets();
+
+  // Atualiza select de filtro no histórico
+  const sel = document.getElementById('histFilterAsset');
+  if (sel) {
+    const unique = [...new Set(signals.map(s => s.asset))];
+    const cur = sel.value;
+    sel.innerHTML = '<option value="">Todos ativos</option>' + unique.map(a => `<option value="${a}"${a===cur?' selected':''}>${a}</option>`).join('');
+  }
+
+  // Atualiza contagem de alertas
+  const cnt = document.getElementById('alertCount');
+  if (cnt && signals.length) { cnt.style.display='inline-block'; cnt.textContent=`${signals.length} sinais`; }
+}
+
+// ════════════════════════════════════════════════════════
+// RENDERIZAR SINAL NO DASHBOARD
+// ════════════════════════════════════════════════════════
+const $ = id => document.getElementById(id);
+const setText = (id, v) => { const e = $(id); if (e) e.textContent = v ?? '—'; };
+
+function renderSignal(sig) {
+  if (!sig) return;
+  activeSignal = sig;
+
+  let payload = {}, analysis = {};
+  try { payload  = JSON.parse(sig.payload  || '{}'); } catch {}
+  try { analysis = JSON.parse(sig.analysis || '{}'); } catch {}
+
+  const dir  = sig.direction || 'neutral';
+  const bull = dir === 'buy', bear = dir === 'sell';
+  const dirLabel = bull ? '▲ LONG' : bear ? '▼ SHORT' : '— NEUTRO';
+  const scoreColor = sig.score >= 4 ? 'var(--green)' : sig.score === 3 ? 'var(--yellow)' : 'var(--red)';
+
+  const tfs = payload.timeframes || {};
+  const lvl = payload.levels    || {};
+  const scr = payload.score     || {};
+  const sd  = payload.sd_zones  || {};
+  const keo = payload.keo       || {};
+  const mm  = payload.mm_kernel || {};
+  const osc = payload.osc_matrix|| {};
+  const st  = payload.stoch_rsi || {};
+  const pr  = payload.price     || {};
+  const fib = payload.fibonacci || {};
+  const psig= payload.signal    || {};
+  const prob= analysis.probabilidade || sig.prob || 0;
+  const isWk= payload.is_weekend || sig.is_weekend || false;
+  const pathClear = psig.path_clear || false;
+
+  const f2 = v => v != null ? (+v).toLocaleString('pt-BR', {minimumFractionDigits:2, maximumFractionDigits:2}) : '—';
+
+  // ── Header / badge
+  setText('signalPanelTitle', `ANÁLISE ATIVA — ${sig.asset}`);
+  setText('signalTFTag', `${tfs.principal||'4H'} · ${(psig.type||'').toUpperCase() || dir.toUpperCase()}`);
+
+  // ── Hero
+  const hero = $('signalHero');
+  if (hero) hero.className = `signal-hero ${bull?'bull':bear?'bear':''}`;
+  const badge = $('signalBadge');
+  if (badge) { badge.className = `signal-badge ${dir}`; badge.textContent = dirLabel; }
+  setText('signalAsset', `${sig.asset}${pathClear?' ⭐':''}${isWk?' ⚠ Weekend':''}`);
+  setText('signalScoreInline', `${sig.score}/5`);
+  setText('currentPrice', pr.close ? f2(pr.close) : '—');
+  setText('atrLabel', `ATR: ${pr.atr14 ? f2(pr.atr14) : '—'}`);
+
+  const probTag = $('probTag');
+  if (probTag) { probTag.style.display = prob ? 'inline-block' : 'none'; probTag.textContent = `PROB ${prob}%`; probTag.className = `tag ${prob>=70?'tag-green':prob>=50?'tag-yellow':'tag-red'}`; }
+  const pathTag = $('pathTag');
+  if (pathTag) pathTag.style.display = pathClear ? 'inline-block' : 'none';
+  const wkBadge = $('weekendBadge');
+  if (wkBadge) wkBadge.style.display = isWk ? 'inline-block' : 'none';
+
+  // ── Dot cores
+  const dc = bull ? 'var(--green)' : bear ? 'var(--red)' : 'var(--text3)';
+  const sd2 = $('signalDotColor'); if (sd2) sd2.style.background = dc;
+  const ad2 = $('alignDotColor'); if (ad2) ad2.style.background = dc;
+
+  // ── Níveis
+  setText('levelEntry', f2(lvl.entry || sig.entry));
+  setText('levelStop',  f2(lvl.stop  || sig.stop));
+  setText('levelTP1',   f2(lvl.tp1   || sig.tp1));
+  setText('levelTP2',   f2(lvl.tp2   || sig.tp2));
+  setText('levelTP3',   f2(lvl.tp3   || sig.tp3));
+  const rr = analysis.tabela_alvos?.rr_ratio;
+  setText('levelRR', rr ? (typeof rr === 'number' ? `1:${rr.toFixed(1)}` : rr) : '—');
+  setText('levelBias', analysis.vies || (bull?'BULLISH':bear?'BEARISH':'NEUTRO'));
+
+  // ── TF Alignment
+  const tfc = (cls) => cls==='bear'?'var(--red)':cls==='bull'?'var(--green)':'var(--text2)';
+  const tfs_arr = [
+    {role:'PRINCIPAL',   tf:tfs.principal||'4H',  cls:bear?'bear':bull?'bull':'neutral'},
+    {role:'CONFIRMAÇÃO', tf:tfs.confirmacao||'1H', cls:bear?'bear':bull?'bull':'neutral'},
+    {role:'ENTRADA',     tf:tfs.entrada||'15m',    cls:'neutral'},
+  ];
+  const tfEl = $('tfAlignment');
+  if (tfEl) tfEl.innerHTML = tfs_arr.map(t => `
+    <div class="tf-col ${t.cls}">
+      <div class="tf-col-role">${t.role}</div>
+      <div class="tf-col-tf" style="color:${tfc(t.cls)}">${t.tf}</div>
+      <div class="tf-col-score">${sig.score}/5</div>
+      <div class="tf-col-status" style="color:${tfc(t.cls)}">${t.cls==='bear'?'BEAR':t.cls==='bull'?'BULL':'NEUTRO'}</div>
+    </div>`).join('');
+
+  const aligned = tfs_arr[0].cls === tfs_arr[1].cls && tfs_arr[0].cls !== 'neutral';
+  const adEl = $('alignDots');
+  if (adEl) adEl.innerHTML = tfs_arr.slice(0,2).map(t => `<div class="alignment-dot" style="background:${tfc(t.cls)}"></div>`).join('');
+  const arEl = $('alignResult');
+  if (arEl) { arEl.textContent = aligned ? '2/2 ✓' : '1/2 ✗'; arEl.style.color = aligned ? 'var(--green)' : 'var(--yellow)'; }
+  setText('alignTag', aligned ? `ALINHADO ${dir.toUpperCase()}` : 'DIVERGÊNCIA');
+  const atEl = $('alignTag');
+  if (atEl) atEl.className = `tag ${aligned?(bear?'tag-red':'tag-green'):'tag-yellow'}`;
+
+  // ── TF badges nos indicadores
+  ['ind1','ind2','ind3','ind4','ind5'].forEach(id => {
+    const el = $(id);
+    if (el) el.innerHTML = tfs_arr.map((t,i) =>
+      `<div class="ind-tf-badge ${i===0?'active-tf':''} ${t.cls==='bear'?'bear-tf':t.cls==='bull'?'bull-tf':''}">${t.tf}</div>`
+    ).join('');
+  });
+  setText('indTFLabel', `Principal: ${tfs.principal||'4H'}`);
+
+  // ── Score
+  const sn = $('scoreNumber');
+  if (sn) { sn.textContent = sig.score; sn.style.color = scoreColor; }
+  setText('scoreLabel', `/ 5 · ${(dir).toUpperCase()}${isWk?' ⚠ WEEKEND':''}`);
+  const sb = $('scoreBarFill');
+  if (sb) { sb.style.width = `${sig.score*20}%`; sb.style.background = scoreColor; }
+
+  const scoreItemsData = [
+    ['SD Zone',   scr.sd,         sd.zone_type   || '—'],
+    ['KEO v7',    scr.keo,        psig.type       || '—'],
+    ['MM Kernel', scr.mm_kernel,  mm.status       || '—'],
+    ['Osc Matrix',scr.osc_matrix, osc.confluence != null ? (+osc.confluence).toFixed(2) : '—'],
+    ['Stoch RSI', scr.stoch_rsi,  `K:${(+(st.k||0)).toFixed(1)}`],
+  ];
+  const siEl = $('scoreItems');
+  if (siEl) siEl.innerHTML = scoreItemsData.map(([label, val, sub]) =>
+    `<div class="score-item">
+      <div><div class="score-item-label">${label}</div><div style="font-size:7px;color:var(--text3);font-family:'Space Mono',monospace">${sub}</div></div>
+      <div class="score-item-val" style="color:${val?scoreColor:'var(--text3)'}">${val ? '✓' : '–'}</div>
+    </div>`).join('');
+
+  // ── Gauges
+  const pg = $('probFill'); if (pg) { pg.style.width=`${prob}%`; pg.style.background=prob>=70?'var(--green)':prob>=50?'var(--yellow)':'var(--red)'; }
+  setText('probValue', prob ? `${prob}%` : '—'); if ($('probValue')) $('probValue').style.color = prob>=70?'var(--green)':prob>=50?'var(--yellow)':'var(--red)';
+
+  const er = +(keo.er_kaufman||0); const erPct = Math.min(er*100, 100);
+  const eg = $('erFill'); if (eg) { eg.style.width=`${erPct}%`; eg.style.background=er>=0.5?'var(--green)':'var(--yellow)'; }
+  setText('erValue', er ? er.toFixed(2) : '—'); if ($('erValue')) $('erValue').style.color = er>=0.5?'var(--green)':'var(--yellow)';
+
+  const adx = +(mm.adx||0); const adxPct = Math.min(adx/50*100, 100);
+  const ag = $('adxFill'); if (ag) { ag.style.width=`${adxPct}%`; ag.style.background=adx>=25?'var(--green)':'var(--yellow)'; }
+  setText('adxValue', adx ? adx.toFixed(1) : '—'); if ($('adxValue')) $('adxValue').style.color = adx>=25?'var(--green)':'var(--yellow)';
+
+  // ── Botão analisar
+  const btn = $('analyzeBtn');
+  if (btn) {
+    btn.className = 'analyze-btn';
+    btn.innerHTML = '<span>⚡ VER ANÁLISE APEX</span>';
+  }
+
+  // ── Análise Claude
+  if (analysis && !analysis.error) {
+    setText('analysisEstrutura', analysis.estrutura_smc || '—');
+    setText('analysisMicro', analysis.microestrutura || '—');
+    setText('analysisRisco', analysis.gestao_risco || '—');
+
+    const cEl = $('confluenceList');
+    if (cEl) cEl.innerHTML = (analysis.confluencias||[]).length
+      ? (analysis.confluencias).map(c => `<div style="padding:5px 0;border-bottom:1px solid var(--border);font-size:10px;color:var(--text2);display:flex;gap:7px;"><span style="color:var(--green)">▸</span>${c}</div>`).join('')
+      : '<div style="color:var(--text3);font-size:10px">—</div>';
+
+    const aEl = $('alertsList');
+    if (aEl) aEl.innerHTML = (analysis.alertas||[]).length
+      ? (analysis.alertas).map(a => `<div style="padding:5px 0;border-bottom:1px solid var(--border);font-size:10px;color:var(--text2);display:flex;gap:7px;"><span style="color:var(--yellow)">⚠</span>${a}</div>`).join('')
+      : '<div style="color:var(--text3);font-size:10px">—</div>';
+
+    setText('tgContent', analysis.resumo_telegram || '—');
+  } else {
+    setText('analysisEstrutura', 'Análise ainda não disponível para este sinal.');
+  }
+
+  // ── Indicadores individuais
+  const indData = [
+    {n:'indStatus1', val:scr.sd       ? '✓ ATIVO':'– INATIVO', ok:!!scr.sd,         metric:`Zone: ${sd.zone_type||'none'}`},
+    {n:'indStatus2', val:scr.keo      ? `✓ ${(psig.type||'—').toUpperCase()}`:'– INATIVO', ok:!!scr.keo,   metric:`ER: ${er.toFixed(2)}`},
+    {n:'indStatus3', val:scr.mm_kernel? `✓ ${mm.status||'—'}`:'– INATIVO', ok:!!scr.mm_kernel, metric:`ADX: ${adx.toFixed(1)}`},
+    {n:'indStatus4', val:scr.osc_matrix?'✓ CONFLUENTE':'– INATIVO', ok:!!scr.osc_matrix, metric:`MF: ${(+(osc.money_flow||0)).toFixed(2)}`},
+    {n:'indStatus5', val:scr.stoch_rsi? '✓ ARMADO':'– INATIVO',   ok:!!scr.stoch_rsi, metric:`K:${(+(st.k||0)).toFixed(1)} D:${(+(st.d||0)).toFixed(1)}`},
+  ];
+  indData.forEach(({n, val, ok, metric}) => {
+    const el = $(n); if (el) { el.textContent=val; el.style.color=ok?scoreColor:'var(--text3)'; }
+    const me = $(n.replace('Status','Metric')); if (me) me.textContent=metric;
+  });
+}
+
+function clearDashboard(a) {
+  const asset = a ? a.name : '—';
+  setText('signalPanelTitle', `ANÁLISE ATIVA — ${asset}`);
+  setText('signalScoreInline', '—');
+  setText('currentPrice', '—');
+  setText('levelEntry','—'); setText('levelStop','—');
+  setText('levelTP1','—'); setText('levelTP2','—'); setText('levelTP3','—');
+  setText('levelRR','—'); setText('levelBias','—');
+  setText('analysisEstrutura', 'Nenhum sinal recebido para este ativo ainda.');
+  setText('tgContent', 'Aguardando sinal...');
+  const btn = $('analyzeBtn');
+  if (btn) { btn.className='analyze-btn blocked'; btn.innerHTML='<span>⏳ AGUARDANDO SINAL</span>'; }
+}
+
+// ════════════════════════════════════════════════════════
+// PAINÉIS INFERIORES — SINAIS RECENTES E ALERTAS
+// ════════════════════════════════════════════════════════
+function renderRecentSignals(signals) {
+  const el = $('recentSignals');
+  if (!el) return;
+  if (!signals.length) { el.innerHTML = '<div style="padding:14px;text-align:center;font-size:10px;color:var(--text3);">Nenhum sinal ainda.</div>'; return; }
+  el.innerHTML = signals.map(s => {
+    const bull = s.direction==='buy';
+    let an = {}; try { an = JSON.parse(s.analysis||'{}'); } catch {}
+    const ts = s.timestamp ? new Date(s.timestamp).toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'}) : '—';
+    return `<div class="history-item" onclick="loadSignal(${s.id})">
+      <div class="history-dir" style="background:${bull?'rgba(0,229,160,0.1)':'rgba(255,77,109,0.1)'};color:${bull?'var(--green)':'var(--red)'};">${(s.direction||'?').toUpperCase()}</div>
+      <div class="history-info"><div class="history-asset">${s.asset}</div><div class="history-tf">${ts}</div></div>
+      <div class="history-result" style="color:var(--text2);">Score ${s.score}/5${an.probabilidade?`<br><span style="color:var(--blue)">Prob ${an.probabilidade}%</span>`:''}</div>
+    </div>`;
+  }).join('');
+}
+
+function renderAlertsFeed(signals) {
+  const el = $('alertsFeed');
+  if (!el) return;
+  if (!signals.length) { el.innerHTML = '<div style="grid-column:1/-1;padding:18px;text-align:center;font-size:10px;color:var(--text3);">Aguardando sinais do TradingView...</div>'; return; }
+  el.innerHTML = signals.map(s => {
+    const bull = s.direction==='buy', bear = s.direction==='sell';
+    const cls = bull?'premium':bear?'warning':'info';
+    const em  = bull?'🟢':bear?'🔴':'⚪';
+    let an = {}; try { an = JSON.parse(s.analysis||'{}'); } catch {}
+    const ts = s.timestamp ? new Date(s.timestamp).toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'}) : '—';
+    return `<div class="alert-item ${cls}" onclick="loadSignal(${s.id})">
+      <div class="alert-title">${em} ${(s.direction||'?').toUpperCase()} — ${s.asset}</div>
+      <div class="alert-desc">Score ${s.score}/5${an.probabilidade ? ` · Prob ${an.probabilidade}%` : ''}</div>
+      <div class="alert-time">${ts}</div>
+    </div>`;
+  }).join('');
+}
+
+function loadSignal(id) {
+  const sig = lastSignals.find(s => s.id === id);
+  if (!sig) return;
+  const a = assets.find(x => x.name === sig.asset);
+  if (a) activeId = a.id;
+  renderAssetBar();
+  renderSignal(sig);
+  showView('dashboard', $('btnDashboard'));
+}
+
+// ════════════════════════════════════════════════════════
+// VIEW: MULTI-ATIVOS
+// ════════════════════════════════════════════════════════
+function renderMultiAssets() {
+  const el = $('multiAssetGrid');
+  if (!el) return;
+
+  const byAsset = {};
+  lastSignals.forEach(s => { if (!byAsset[s.asset]) byAsset[s.asset] = s; });
+
+  const allAssets = assets.filter(a => a.on);
+  if (!allAssets.length) return;
+
+  el.innerHTML = allAssets.map(a => {
+    const sig = byAsset[a.name];
+    const bull = sig?.direction==='buy', bear = sig?.direction==='sell';
+    const cls  = bull?'bull':bear?'bear':'';
+    let an = {}; try { an = JSON.parse(sig?.analysis||'{}'); } catch {}
+    const prob  = an.probabilidade || sig?.prob || 0;
+    const score = sig?.score || '—';
+    const sel   = a.id === activeId ? 'selected' : '';
+
+    return `<div class="asset-card ${cls} ${sel}" onclick="selectAsset(${a.id})">
+      <span class="asset-card-score" style="color:${bull?'var(--green)':bear?'var(--red)':'var(--text3)'}">${score}</span>
+      <div class="asset-card-name">${a.name}</div>
+      <div class="asset-card-dir" style="color:${bull?'var(--green)':bear?'var(--red)':'var(--text3)'}">
+        ${bull?'▲ LONG':bear?'▼ SHORT':'– AGUARD.'}${prob ? ` · ${prob}%` : ''}
+      </div>
+      <div class="asset-card-meta">${a.tf_p} / ${a.tf_c} / ${a.tf_e}${sig?` · ${new Date(sig.timestamp).toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'})}`:''}</div>
+    </div>`;
+  }).join('');
+}
+
+// ════════════════════════════════════════════════════════
+// VIEW: HISTÓRICO
+// ════════════════════════════════════════════════════════
+function renderHistory() {
+  const dirFilter   = ($('histFilterDir')?.value || '').toLowerCase();
+  const assetFilter = $('histFilterAsset')?.value || '';
+
+  let sigs = [...lastSignals];
+  if (dirFilter)   sigs = sigs.filter(s => s.direction === dirFilter);
+  if (assetFilter) sigs = sigs.filter(s => s.asset === assetFilter);
+
+  // Stats
+  const statsEl = $('histStats');
+  if (statsEl) {
+    const total = lastSignals.length;
+    const buys  = lastSignals.filter(s=>s.direction==='buy').length;
+    const sells = lastSignals.filter(s=>s.direction==='sell').length;
+    const probs = lastSignals.map(s=>s.prob).filter(Boolean);
+    const avgP  = probs.length ? Math.round(probs.reduce((a,b)=>a+b,0)/probs.length) : 0;
+    const avgS  = lastSignals.length ? (lastSignals.reduce((a,s)=>a+(s.score||0),0)/lastSignals.length).toFixed(1) : 0;
+    statsEl.innerHTML = [
+      ['TOTAL',       total,            'var(--text)'],
+      ['LONG',        buys,             'var(--green)'],
+      ['SHORT',       sells,            'var(--red)'],
+      ['PROB MÉDIA',  avgP ? `${avgP}%` : '—', 'var(--blue)'],
+      ['SCORE MÉDIO', avgS,             'var(--yellow)'],
+    ].map(([label,val,color]) => `
+      <div style="padding:13px;background:var(--bg3);border:1px solid var(--border);text-align:center;">
+        <div style="font-size:20px;font-weight:800;font-family:'Space Mono',monospace;color:${color}">${val}</div>
+        <div style="font-size:8px;color:var(--text3);margin-top:3px;font-family:'Space Mono',monospace">${label}</div>
+      </div>`).join('');
+  }
+
+  // Tabela
+  const tbody = $('historyTableBody');
+  if (!tbody) return;
+  if (!sigs.length) { tbody.innerHTML = '<div style="padding:18px;text-align:center;font-size:10px;color:var(--text3);">Nenhum sinal encontrado.</div>'; return; }
+
+  tbody.innerHTML = sigs.map(s => {
+    const bull = s.direction==='buy';
+    const ts = s.timestamp ? new Date(s.timestamp).toLocaleString('pt-BR',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'}) : '—';
+    const f2 = v => v != null ? (+v).toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2}) : '—';
+    return `<div class="history-full-row" onclick="loadSignal(${s.id})">
+      <span style="color:${bull?'var(--green)':'var(--red)'};font-weight:700">${(s.direction||'?').toUpperCase()}</span>
+      <span style="font-weight:700">${s.asset}</span>
+      <span style="color:${s.score>=4?'var(--green)':s.score===3?'var(--yellow)':'var(--red)'}">${s.score}/5</span>
+      <span style="font-family:'Space Mono',monospace;font-size:9px">${f2(s.entry)}</span>
+      <span style="font-family:'Space Mono',monospace;font-size:9px;color:var(--red)">${f2(s.stop)}</span>
+      <span style="font-family:'Space Mono',monospace;font-size:9px;color:var(--green)">${f2(s.tp1)}</span>
+      <span style="color:var(--blue)">${s.prob ? s.prob+'%' : '—'}</span>
+      <span style="font-size:9px;color:var(--text3);font-family:'Space Mono',monospace">${ts}</span>
+    </div>`;
+  }).join('');
+}
+
+// ════════════════════════════════════════════════════════
+// VIEW: TELEGRAM
+// ════════════════════════════════════════════════════════
+function renderTelegramView() {
+  // Exibe o resumo do sinal ativo
+  if (activeSignal) {
+    let an = {}; try { an = JSON.parse(activeSignal.analysis||'{}'); } catch {}
+    setText('tgViewContent', an.resumo_telegram || 'Análise ainda não disponível para este sinal.');
+  }
+
+  // Lista os últimos sinais com resumo
+  const el = $('tgHistory');
+  if (!el) return;
+  if (!lastSignals.length) { el.innerHTML = '<div style="text-align:center;padding:18px;">Nenhum sinal ainda.</div>'; return; }
+
+  el.innerHTML = lastSignals.slice(0, 15).map(s => {
+    let an = {}; try { an = JSON.parse(s.analysis||'{}'); } catch {}
+    const bull = s.direction==='buy';
+    const ts = s.timestamp ? new Date(s.timestamp).toLocaleString('pt-BR',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'}) : '—';
+    const resumo = an.resumo_telegram;
+    return `<div class="alert-item ${bull?'premium':'warning'}" onclick="loadSignal(${s.id})" style="margin-bottom:6px;">
+      <div class="alert-title" style="color:${bull?'var(--green)':'var(--red)'}">${bull?'🟢':'🔴'} ${(s.direction||'?').toUpperCase()} — ${s.asset}</div>
+      <div class="alert-desc">${ts} · Score ${s.score}/5${an.probabilidade ? ` · Prob ${an.probabilidade}%` : ''}</div>
+      ${resumo ? `<div style="font-size:8px;color:var(--text3);margin-top:3px;font-family:'Space Mono',monospace;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${resumo.substring(0,100)}...</div>` : ''}
+    </div>`;
+  }).join('');
+}
+
+function copyTG() {
+  const el = $('tgContent');
+  if (el) navigator.clipboard.writeText(el.innerText).then(() => {
+    const b = document.querySelector('.tg-copy-btn'); if (b) { b.textContent='COPIADO!'; setTimeout(()=>b.textContent='COPIAR',2000); }
+  });
+}
+
+function copyTGView() {
+  const el = $('tgViewContent');
+  if (el) navigator.clipboard.writeText(el.innerText).then(() => {
+    const b = document.querySelectorAll('.tg-copy-btn')[1]; if (b) { b.textContent='COPIADO!'; setTimeout(()=>b.textContent='COPIAR',2000); }
+  });
+}
+
+// ════════════════════════════════════════════════════════
+// BOTÃO ANALISAR
+// ════════════════════════════════════════════════════════
+function triggerAnalysis() {
+  const btn = $('analyzeBtn');
+  if (!btn || btn.classList.contains('blocked')) return;
+  if (activeSignal) {
+    btn.classList.add('loading'); btn.innerHTML = '<span>⟳ ATUALIZANDO...</span>';
+    setTimeout(() => { renderSignal(activeSignal); btn.classList.remove('loading'); btn.innerHTML='<span>✓ ANÁLISE EXIBIDA</span>'; setTimeout(()=>btn.innerHTML='<span>⚡ VER ANÁLISE APEX</span>',2000); }, 600);
+  }
+}
+
+// ════════════════════════════════════════════════════════
+// SETTINGS
+// ════════════════════════════════════════════════════════
 function tfSelect(val, onChange) {
   return `<select class="config-select" onchange="${onChange}">${TF_OPT.map(t=>`<option${t===val?' selected':''}>${t}</option>`).join('')}</select>`;
 }
 
-// ── ASSET BAR ──
-function renderAssetBar() {
-  const bar = document.getElementById('assetBar');
-  bar.innerHTML = assets.filter(a=>a.on).map(a => {
-    const bc = a.bias==='bull'?'badge-bull':a.bias==='bear'?'badge-bear':'badge-neutral';
-    const bt = a.bias==='bull'?'BUY':a.bias==='bear'?'SELL':'–';
-    const ac = a.id===activeId?(a.bias==='bear'?'active bear':'active'):'';
-    return `<div class="asset-pill ${ac}" onclick="selectAsset(${a.id})">${a.name}<span class="asset-badge ${bc}">${bt}</span><span class="tf-mini">${a.tf_p}</span></div>`;
-  }).join('');
-}
-
-function selectAsset(id) { activeId=id; renderAssetBar(); updateDashboard(); }
-
-// ── DASHBOARD (legado — só renderiza estrutura se não houver sinal real)
-function updateDashboard() {
-  const a = assets.find(x=>x.id===activeId);
-  if(!a) return;
-  document.getElementById('signalPanelTitle').textContent = `ANÁLISE ATIVA — ${a.name}`;
-  document.getElementById('heroTFP').textContent = a.tf_p;
-  document.getElementById('heroTFC').textContent = a.tf_c+' ✓';
-  document.getElementById('heroTFE').textContent = a.tf_e;
-  document.getElementById('indTFLabel').textContent = `Principal: ${a.tf_p}`;
-  document.getElementById('signalTFTag').textContent = `${a.tf_p} · AGUARDANDO`;
-
-  const tfData = [
-    {role:'PRINCIPAL',   tf:a.tf_p, score:'—', status:'AGUARD.', cls:'neutral'},
-    {role:'CONFIRMAÇÃO', tf:a.tf_c, score:'—', status:'AGUARD.', cls:'neutral'},
-    {role:'ENTRADA',     tf:a.tf_e, score:'—', status:'AGUARD.', cls:'neutral'},
-  ];
-
-  document.getElementById('tfAlignment').innerHTML = tfData.map(t=>`
-    <div class="tf-col ${t.cls}">
-      <div class="tf-col-role">${t.role}</div>
-      <div class="tf-col-tf" style="color:var(--text2)">${t.tf}</div>
-      <div class="tf-col-score">${t.score}</div>
-      <div class="tf-col-status" style="color:var(--text3)">${t.status}</div>
-    </div>`).join('');
-
-  document.getElementById('alignDots').innerHTML = tfData.map(()=>
-    `<div class="alignment-dot" style="background:var(--text3)"></div>`
-  ).join('');
-
-  document.getElementById('alignResult').textContent = '—';
-  document.getElementById('alignResult').style.color = 'var(--text3)';
-  document.getElementById('alignTag').textContent = 'AGUARDANDO SINAL';
-  document.getElementById('alignTag').className = 'tag tag-yellow';
-
-  ['ind1','ind2','ind3','ind4','ind5'].forEach(id=>{
-    document.getElementById(id).innerHTML = tfData.map((t,i)=>
-      `<div class="ind-tf-badge ${i===0?'active-tf':''}">${t.tf}</div>`
-    ).join('');
-  });
-
-  // Se o ativo tem sinal cacheado, renderiza
-  if (a.latestSignal) {
-    renderSignalFromBackend(a.latestSignal);
-  } else {
-    const btn = document.getElementById('analyzeBtn');
-    if(btn){ btn.className='analyze-btn blocked'; btn.innerHTML='<span>⚠ AGUARDANDO SINAL DO INDICADOR</span>'; }
-  }
-}
-  document.getElementById('indTFLabel').textContent = `Principal: ${a.tf_p}`;
-  document.getElementById('signalTFTag').textContent = `${a.tf_p} · OB SELL`;
-
-  const tfData = [
-    {role:'PRINCIPAL',   tf:a.tf_p, score:'4/5', status:a.bias==='bear'?'BEAR':'BULL', cls:a.bias==='bear'?'bear':'bull'},
-    {role:'CONFIRMAÇÃO', tf:a.tf_c, score:'3/5', status:a.bias==='bear'?'BEAR':'BULL', cls:a.bias==='bear'?'bear':'bull'},
-    {role:'ENTRADA',     tf:a.tf_e, score:'2/5', status:'NEUTRO', cls:'neutral'},
-  ];
-
-  document.getElementById('tfAlignment').innerHTML = tfData.map(t=>`
-    <div class="tf-col ${t.cls}">
-      <div class="tf-col-role">${t.role}</div>
-      <div class="tf-col-tf" style="color:${t.cls==='bear'?'var(--red)':t.cls==='bull'?'var(--green)':'var(--text2)'}">${t.tf}</div>
-      <div class="tf-col-score">${t.score}</div>
-      <div class="tf-col-status" style="color:${t.cls==='bear'?'var(--red)':t.cls==='bull'?'var(--green)':'var(--text3)'}">${t.status}</div>
-    </div>`).join('');
-
-  document.getElementById('alignDots').innerHTML = tfData.map(t=>
-    `<div class="alignment-dot" style="background:${t.cls==='bear'?'var(--red)':t.cls==='bull'?'var(--green)':'var(--text3)'}"></div>`
-  ).join('');
-
-  const aligned = tfData[0].cls===tfData[1].cls;
-  document.getElementById('alignResult').textContent = aligned?'2/2 ✓':'1/2 ✗';
-  document.getElementById('alignResult').style.color = aligned?'var(--green)':'var(--yellow)';
-  document.getElementById('alignTag').textContent = aligned?`ALINHADO ${a.bias.toUpperCase()}`:'DIVERGÊNCIA';
-  document.getElementById('alignTag').className = `tag ${aligned?(a.bias==='bear'?'tag-red':'tag-green'):'tag-yellow'}`;
-
-  ['ind1','ind2','ind3','ind4','ind5'].forEach(id=>{
-    document.getElementById(id).innerHTML = tfData.map((t,i)=>
-      `<div class="ind-tf-badge ${i===0?'active-tf':''} ${t.cls==='bear'?'bear-tf':t.cls==='bull'?'bull-tf':''}">${t.tf}</div>`
-    ).join('');
-  });
-
-  const btn = document.getElementById('analyzeBtn');
-  if(aligned){ btn.className='analyze-btn'; btn.innerHTML='<span>⚡ ACIONAR ANÁLISE APEX</span>'; }
-  else { btn.className='analyze-btn blocked'; btn.innerHTML='<span>⚠ AGUARDAR ALINHAMENTO DE TFs</span>'; }
-}
-
-// ── SETTINGS ROWS ──
 function renderSettingsRows() {
-  document.getElementById('assetConfigRows').innerHTML = assets.map(a=>`
+  const el = $('assetConfigRows');
+  if (!el) return;
+  el.innerHTML = assets.map(a => `
     <div class="asset-config-row">
       <div class="asset-name-cell">${a.name}<br><span style="font-size:7px;color:var(--text3);font-weight:400;">${a.cls}</span></div>
-      ${tfSelect(a.tf_p,`setTF(${a.id},'tf_p',this.value)`)}
-      ${tfSelect(a.tf_c,`setTF(${a.id},'tf_c',this.value)`)}
-      ${tfSelect(a.tf_e,`setTF(${a.id},'tf_e',this.value)`)}
+      ${tfSelect(a.tf_p, `setTF(${a.id},'tf_p',this.value)`)}
+      ${tfSelect(a.tf_c, `setTF(${a.id},'tf_c',this.value)`)}
+      ${tfSelect(a.tf_e, `setTF(${a.id},'tf_e',this.value)`)}
       <input class="config-input" type="number" value="${a.score}" min="1" max="5" style="text-align:center;" onchange="setTF(${a.id},'score',+this.value)">
       <div class="toggle-wrap"><button class="toggle ${a.on?'on':''}" onclick="toggleA(${a.id},this)"></button></div>
     </div>`).join('');
 
-  document.getElementById('presetRows').innerHTML = CLASSES.map(cls=>{
+  const pr = $('presetRows');
+  if (!pr) return;
+  pr.innerHTML = CLASSES.map(cls => {
     const p = presets[cls];
     return `<div class="global-setting-row">
       <div><div class="global-setting-label">${cls}</div></div>
       <div class="global-setting-ctrl" style="gap:5px;">
-        ${tfSelect(p.tf_p,`presets['${cls}'].tf_p=this.value`)}
-        ${tfSelect(p.tf_c,`presets['${cls}'].tf_c=this.value`)}
-        ${tfSelect(p.tf_e,`presets['${cls}'].tf_e=this.value`)}
+        ${tfSelect(p.tf_p, `presets['${cls}'].tf_p=this.value`)}
+        ${tfSelect(p.tf_c, `presets['${cls}'].tf_c=this.value`)}
+        ${tfSelect(p.tf_e, `presets['${cls}'].tf_e=this.value`)}
         <button class="btn" style="font-size:8px;padding:4px 7px;" onclick="applyPreset('${cls}')">APLICAR</button>
       </div>
     </div>`;
@@ -649,420 +1172,53 @@ function renderSettingsRows() {
 }
 
 function setTF(id, field, val) {
-  const a = assets.find(x=>x.id===id);
-  if(a){ a[field]=val; renderAssetBar(); if(id===activeId) updateDashboard(); }
+  const a = assets.find(x => x.id === id);
+  if (a) { a[field] = val; renderAssetBar(); if (id === activeId) clearDashboard(a); }
 }
 
 function toggleA(id, btn) {
-  const a = assets.find(x=>x.id===id);
-  if(a){ a.on=!a.on; btn.classList.toggle('on'); renderAssetBar(); }
+  const a = assets.find(x => x.id === id);
+  if (a) { a.on = !a.on; btn.classList.toggle('on'); renderAssetBar(); }
 }
 
 function applyPreset(cls) {
   const p = presets[cls];
-  assets.filter(a=>a.cls===cls).forEach(a=>{ a.tf_p=p.tf_p; a.tf_c=p.tf_c; a.tf_e=p.tf_e; });
+  assets.filter(a => a.cls === cls).forEach(a => { a.tf_p=p.tf_p; a.tf_c=p.tf_c; a.tf_e=p.tf_e; });
   renderSettingsRows(); renderAssetBar();
-  if(assets.find(x=>x.id===activeId)?.cls===cls) updateDashboard();
 }
 
-function showAddRow() { document.getElementById('addRow').style.display='flex'; document.getElementById('newAssetInput').focus(); }
+function showAddRow() { $('addRow').style.display='flex'; $('newAssetInput').focus(); }
 
 function addAsset() {
-  const name = document.getElementById('newAssetInput').value.trim().toUpperCase();
-  const cls  = document.getElementById('newClass').value;
-  if(!name) return;
-  const p = presets[cls]||{tf_p:'4H',tf_c:'1H',tf_e:'15m'};
-  assets.push({id:Date.now(),name,cls,tf_p:p.tf_p,tf_c:p.tf_c,tf_e:p.tf_e,score:3,on:true,bias:'neutral'});
-  document.getElementById('newAssetInput').value='';
-  document.getElementById('addRow').style.display='none';
+  const name = $('newAssetInput').value.trim().toUpperCase();
+  const cls  = $('newClass').value;
+  if (!name) return;
+  const p = presets[cls] || {tf_p:'4H',tf_c:'1H',tf_e:'15m'};
+  assets.push({id:Date.now(), name, cls, tf_p:p.tf_p, tf_c:p.tf_c, tf_e:p.tf_e, score:3, on:true, bias:'neutral'});
+  $('newAssetInput').value = '';
+  $('addRow').style.display = 'none';
   renderSettingsRows(); renderAssetBar();
 }
 
-// ── VIEWS ──
-function showView(name, btn) {
-  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
-  document.getElementById('view-'+name).classList.add('active');
-  document.querySelectorAll('.header-actions .btn').forEach(b=>b.classList.remove('active'));
-  btn.classList.add('active');
-  if(name==='settings') renderSettingsRows();
-}
-
-// ══════════════════════════════════════════════════════
-// INTEGRAÇÃO COM RAILWAY
-// ══════════════════════════════════════════════════════
-
-// Atualiza o indicador de status de conexão no header
-function setConnectionStatus(status) {
-  connectionStatus = status;
-  const dot = document.getElementById('connectionDot');
-  const label = document.getElementById('connectionLabel');
-  if (!dot || !label) return;
-  if (status === 'online') {
-    dot.style.background = 'var(--green)'; label.textContent = 'BACKEND ONLINE';
-  } else if (status === 'offline') {
-    dot.style.background = 'var(--red)'; label.textContent = 'BACKEND OFFLINE';
-  } else {
-    dot.style.background = 'var(--yellow)'; label.textContent = 'CONECTANDO...';
-  }
-}
-
-// Busca sinais do Railway
-async function fetchSignals() {
-  try {
-    const res = await fetch(`${API_URL}/signals?limit=50`, {signal: AbortSignal.timeout(8000)});
-    if (!res.ok) throw new Error('HTTP ' + res.status);
-    const data = await res.json();
-    setConnectionStatus('online');
-    return data.signals || [];
-  } catch (e) {
-    setConnectionStatus('offline');
-    return null;
-  }
-}
-
-// Aplica sinais recebidos aos assets e atualiza o dashboard
-function applySignalsToAssets(signals) {
-  if (!signals || !signals.length) return;
-  lastSignals = signals;
-
-  // Para cada ativo, pega o sinal mais recente
-  assets.forEach(a => {
-    const sig = signals.find(s => s.asset === a.name);
-    if (sig) {
-      a.bias = sig.direction === 'buy' ? 'bull' : sig.direction === 'sell' ? 'bear' : 'neutral';
-      a.latestSignal = sig;
-    }
-  });
-
-  renderAssetBar();
-
-  // Se o ativo ativo tem sinal novo, atualiza o dashboard
-  const active = assets.find(x => x.id === activeId);
-  if (active?.latestSignal) {
-    renderSignalFromBackend(active.latestSignal);
-  }
-
-  // Atualiza a feed de alertas
-  renderAlertsFeed(signals.slice(0, 8));
-
-  // Atualiza histórico
-  renderHistoryFromSignals(signals);
-}
-
-// Renderiza o painel principal com dados reais do sinal
-function renderSignalFromBackend(sig) {
-  if (!sig) return;
-  activeSignal = sig;
-  let payload = {};
-  try { payload = JSON.parse(sig.payload || '{}'); } catch(e){}
-  let analysis = {};
-  try { analysis = JSON.parse(sig.analysis || '{}'); } catch(e){}
-
-  const direction = sig.direction || 'neutral';
-  const score = sig.score || 0;
-  const asset = sig.asset || '';
-  const lvl = payload.levels || {};
-  const fib = payload.fibonacci || {};
-  const sd = payload.sd_zones || {};
-  const keo = payload.keo || {};
-  const mm = payload.mm_kernel || {};
-  const osc = payload.osc_matrix || {};
-  const st = payload.stoch_rsi || {};
-  const pr = payload.price || {};
-  const scr = payload.score || {};
-  const tfs = payload.timeframes || {};
-  const isWeekend = payload.is_weekend || sig.is_weekend;
-  const pathClear = payload.signal?.path_clear || false;
-  const prob = analysis.probabilidade || sig.prob || 0;
-
-  // Badge direcional
-  const isBull = direction === 'buy';
-  const isBear = direction === 'sell';
-  const dirLabel = isBull ? 'BUY' : isBear ? 'SELL' : 'NEUTRO';
-  const dirColor = isBull ? 'var(--green)' : isBear ? 'var(--red)' : 'var(--text2)';
-  const heroClass = isBull ? 'bull' : isBear ? 'bear' : '';
-
-  // Panel title
-  const signalPanelTitle = document.getElementById('signalPanelTitle');
-  if (signalPanelTitle) signalPanelTitle.textContent = `ANÁLISE ATIVA — ${asset}`;
-
-  // Hero TFs
-  const el = (id, val) => { const e = document.getElementById(id); if(e) e.textContent = val; };
-  el('heroTFP', tfs.principal || '4H');
-  el('heroTFC', (tfs.confirmacao || '1H') + ' ✓');
-  el('heroTFE', tfs.entrada || '15m');
-
-  // Signal hero
-  const hero = document.getElementById('signalHero');
-  if (hero) {
-    hero.className = `signal-hero ${heroClass}`;
-    document.getElementById('signalBadge').className = `signal-badge ${direction}`;
-    document.getElementById('signalBadge').textContent = dirLabel;
-    document.getElementById('signalAsset').textContent = asset;
-    document.getElementById('signalScore').innerHTML = `Score <strong>${score}/5</strong>`;
-    document.getElementById('signalTFTag').textContent = `${tfs.principal || '4H'} · ${sd.zone_type?.toUpperCase() || 'OB'} ${dirLabel}`;
-    document.getElementById('currentPrice').textContent = pr.close ? pr.close.toLocaleString('pt-BR', {minimumFractionDigits:2}) : '—';
-    document.getElementById('signalProbTag').style.display = prob ? 'inline-block' : 'none';
-    document.getElementById('signalProbTag').textContent = `PROB ${prob}%`;
-    document.getElementById('signalPathTag').style.display = pathClear ? 'inline-block' : 'none';
-    if (isWeekend) {
-      const wk = document.getElementById('weekendBadge');
-      if (wk) wk.style.display = 'flex';
-    }
-  }
-
-  // Níveis
-  const f2 = v => v ? (+v).toLocaleString('pt-BR', {minimumFractionDigits:2}) : '—';
-  el('levelEntry', f2(lvl.entry || sig.entry));
-  el('levelStop',  f2(lvl.stop  || sig.stop));
-  el('levelTP1',   f2(lvl.tp1   || sig.tp1));
-  el('levelTP2',   f2(lvl.tp2   || sig.tp2));
-  el('levelTP3',   f2(lvl.tp3   || sig.tp3));
-
-  // R/R
-  const rr = analysis.tabela_alvos?.rr_ratio || '—';
-  el('levelRR', typeof rr === 'number' ? rr.toFixed(2) : rr);
-
-  // TF Alignment
-  const tfData = [
-    {role:'PRINCIPAL',   tf: tfs.principal||'4H', score: `${scr.total||score}/5`, status: isBear?'BEAR':isBull?'BULL':'NEUTRO', cls: isBear?'bear':isBull?'bull':'neutral'},
-    {role:'CONFIRMAÇÃO', tf: tfs.confirmacao||'1H', score: `${scr.total||score}/5`, status: isBear?'BEAR':isBull?'BULL':'NEUTRO', cls: isBear?'bear':isBull?'bull':'neutral'},
-    {role:'ENTRADA',     tf: tfs.entrada||'15m', score:'—', status:'NEUTRO', cls:'neutral'},
-  ];
-  const tfAlign = document.getElementById('tfAlignment');
-  if (tfAlign) tfAlign.innerHTML = tfData.map(t=>`
-    <div class="tf-col ${t.cls}">
-      <div class="tf-col-role">${t.role}</div>
-      <div class="tf-col-tf" style="color:${t.cls==='bear'?'var(--red)':t.cls==='bull'?'var(--green)':'var(--text2)'}">${t.tf}</div>
-      <div class="tf-col-score">${t.score}</div>
-      <div class="tf-col-status" style="color:${t.cls==='bear'?'var(--red)':t.cls==='bull'?'var(--green)':'var(--text3)'}">${t.status}</div>
-    </div>`).join('');
-
-  const alignDots = document.getElementById('alignDots');
-  if (alignDots) alignDots.innerHTML = tfData.map(t=>
-    `<div class="alignment-dot" style="background:${t.cls==='bear'?'var(--red)':t.cls==='bull'?'var(--green)':'var(--text3)'}"></div>`
-  ).join('');
-
-  const aligned = tfData[0].cls === tfData[1].cls && tfData[0].cls !== 'neutral';
-  el('alignResult', aligned ? '2/2 ✓' : '1/2 ✗');
-  const alignResultEl = document.getElementById('alignResult');
-  if (alignResultEl) alignResultEl.style.color = aligned ? 'var(--green)' : 'var(--yellow)';
-  el('alignTag', aligned ? `ALINHADO ${dirLabel}` : 'DIVERGÊNCIA');
-  const alignTagEl = document.getElementById('alignTag');
-  if (alignTagEl) alignTagEl.className = `tag ${aligned?(isBear?'tag-red':'tag-green'):'tag-yellow'}`;
-
-  // Score individual
-  el('scoreNumber', score);
-  el('scoreLabel', `DE 5 · ${dirLabel}`);
-  const scoreBar = document.getElementById('scoreBarFill');
-  if (scoreBar) {
-    scoreBar.style.width = `${score*20}%`;
-    scoreBar.style.background = score >= 4 ? 'var(--green)' : score === 3 ? 'var(--yellow)' : 'var(--red)';
-  }
-  const scoreColor = score >= 4 ? 'var(--green)' : score === 3 ? 'var(--yellow)' : 'var(--red)';
-  const scoreNum = document.getElementById('scoreNumber');
-  if (scoreNum) scoreNum.style.color = scoreColor;
-
-  // Score items
-  const scoreItems = [
-    ['SD Zone', scr.sd, sd.zone_type || '—'],
-    ['KEO v7',  scr.keo, payload.signal?.type || '—'],
-    ['MM Kernel', scr.mm_kernel, mm.status || '—'],
-    ['Osc Matrix', scr.osc_matrix, osc.confluence ? osc.confluence.toFixed(2) : '—'],
-    ['Stoch RSI', scr.stoch_rsi, `K:${(st.k||0).toFixed(1)}`],
-  ];
-  const scoreItemsEl = document.getElementById('scoreItems');
-  if (scoreItemsEl) scoreItemsEl.innerHTML = scoreItems.map(([label, val, sub])=>
-    `<div class="score-item">
-      <div><div class="score-item-label">${label}</div><div style="font-size:7px;color:var(--text3);font-family:'Space Mono',monospace;margin-top:1px;">${sub}</div></div>
-      <div class="score-item-val" style="color:${val?'var(--green)':'var(--text3)'}">${val ? '✓' : '–'}</div>
-    </div>`
-  ).join('');
-
-  // Probabilidade gauge
-  el('probValue', prob ? `${prob}%` : '—');
-  const probFill = document.getElementById('probFill');
-  if (probFill) {
-    probFill.style.width = `${prob}%`;
-    probFill.style.background = prob >= 70 ? 'var(--green)' : prob >= 50 ? 'var(--yellow)' : 'var(--red)';
-  }
-
-  // Análise Claude
-  if (analysis && !analysis.error) {
-    el('analysisEstrutura', analysis.estrutura_smc || '—');
-    el('analysisMicro', analysis.microestrutura || '—');
-    el('analysisRisco', analysis.gestao_risco || '—');
-
-    const confList = document.getElementById('confluenceList');
-    if (confList) confList.innerHTML = (analysis.confluencias || []).map(c=>
-      `<div style="padding:5px 0;border-bottom:1px solid var(--border);font-size:10px;color:var(--text2);display:flex;align-items:flex-start;gap:7px;"><span style="color:var(--green);margin-top:1px;">▸</span>${c}</div>`
-    ).join('') || '<div style="color:var(--text3);font-size:10px;">Aguardando análise...</div>';
-
-    const alertList = document.getElementById('alertsList');
-    if (alertList) alertList.innerHTML = (analysis.alertas || []).map(a=>
-      `<div style="padding:5px 0;border-bottom:1px solid var(--border);font-size:10px;color:var(--text2);display:flex;align-items:flex-start;gap:7px;"><span style="color:var(--yellow);margin-top:1px;">⚠</span>${a}</div>`
-    ).join('') || '';
-
-    el('tgContent', analysis.resumo_telegram || '—');
-
-    // Indicadores individuais
-    const indData = [
-      {id:'indStatus1', label:'SD Zones', val: scr.sd ? '✓ ATIVO' : '– INATIVO', ok: !!scr.sd, metric: `Zone: ${sd.zone_type||'none'}`},
-      {id:'indStatus2', label:'KEO v7',   val: scr.keo ? `✓ ${(payload.signal?.type||'—').toUpperCase()}` : '– INATIVO', ok: !!scr.keo, metric: `ER: ${(keo.er_kaufman||0).toFixed(2)}`},
-      {id:'indStatus3', label:'MM Kernel',val: scr.mm_kernel ? `✓ ${mm.status||'—'}` : '– INATIVO', ok: !!scr.mm_kernel, metric: `ADX: ${(mm.adx||0).toFixed(1)}`},
-      {id:'indStatus4', label:'Osc Matrix',val: scr.osc_matrix ? '✓ CONFLUENTE' : '– INATIVO', ok: !!scr.osc_matrix, metric: `MF: ${(osc.money_flow||0).toFixed(2)}`},
-      {id:'indStatus5', label:'Stoch RSI',val: scr.stoch_rsi ? '✓ ARMADO' : '– INATIVO', ok: !!scr.stoch_rsi, metric: `K:${(st.k||0).toFixed(1)} D:${(st.d||0).toFixed(1)}`},
-    ];
-    indData.forEach(({id, val, ok, metric}) => {
-      const el2 = document.getElementById(id);
-      if (el2) { el2.textContent = val; el2.style.color = ok ? 'var(--green)' : 'var(--text3)'; }
-      const metricId = id.replace('indStatus','indMetric');
-      const metricEl = document.getElementById(metricId);
-      if (metricEl) metricEl.textContent = metric;
-    });
-  }
-
-  // Botão analisar
-  const btn = document.getElementById('analyzeBtn');
-  if (btn) {
-    if (aligned) {
-      btn.className = 'analyze-btn';
-      btn.innerHTML = '<span>⚡ ACIONAR ANÁLISE APEX</span>';
-    } else {
-      btn.className = 'analyze-btn blocked';
-      btn.innerHTML = '<span>⚠ AGUARDAR ALINHAMENTO DE TFs</span>';
-    }
-  }
-
-  // TF label
-  el('indTFLabel', `Principal: ${tfs.principal || '4H'}`);
-}
-
-// Feed de alertas lateral com dados reais
-function renderAlertsFeed(signals) {
-  const feed = document.getElementById('alertsFeed');
-  if (!feed) return;
-  if (!signals.length) {
-    feed.innerHTML = '<div style="padding:18px;text-align:center;font-size:10px;color:var(--text3);font-family:\'Space Mono\',monospace;grid-column:1/-1;">Aguardando sinais do TradingView...</div>';
-    return;
-  }
-  feed.innerHTML = signals.map(s => {
-    const dir = s.direction || 'neutral';
-    const isBull = dir === 'buy';
-    const isBear = dir === 'sell';
-    const emoji = isBull ? '🟢' : isBear ? '🔴' : '⚪';
-    const cls = isBull ? 'premium' : isBear ? 'warning' : 'info';
-    const ts = s.timestamp ? new Date(s.timestamp).toLocaleTimeString('pt-BR', {hour:'2-digit',minute:'2-digit'}) : '—';
-    let analysis = {};
-    try { analysis = JSON.parse(s.analysis || '{}'); } catch(e) {}
-    const prob = analysis.probabilidade || s.prob || 0;
-    return `<div class="alert-item ${cls}" style="cursor:pointer;" onclick="loadSignalById(${s.id})">
-      <div class="alert-title">${emoji} ${(dir).toUpperCase()} — ${s.asset || '?'}</div>
-      <div class="alert-desc">Score ${s.score}/5${prob ? ` · Prob ${prob}%` : ''}</div>
-      <div class="alert-time">${ts}</div>
-    </div>`;
-  }).join('');
-}
-
-// Clique em um alerta carrega aquele sinal no dashboard
-function loadSignalById(id) {
-  const sig = lastSignals.find(s => s.id === id);
-  if (!sig) return;
-  activeSignal = sig;
-  const assetName = sig.asset;
-  const assetObj = assets.find(a => a.name === assetName);
-  if (assetObj) { activeId = assetObj.id; renderAssetBar(); }
-  renderSignalFromBackend(sig);
-}
-
-// Histórico com dados reais
-function renderHistoryFromSignals(signals) {
-  const container = document.getElementById('historyList');
-  if (!container) return;
-  if (!signals.length) {
-    container.innerHTML = '<div style="padding:18px;text-align:center;font-size:10px;color:var(--text3);font-family:\'Space Mono\',monospace;">Nenhum histórico ainda.</div>';
-    return;
-  }
-  container.innerHTML = signals.slice(0, 20).map(s => {
-    const dir = s.direction || '?';
-    const isBull = dir === 'buy';
-    const ts = s.timestamp ? new Date(s.timestamp).toLocaleDateString('pt-BR') + ' ' + new Date(s.timestamp).toLocaleTimeString('pt-BR', {hour:'2-digit',minute:'2-digit'}) : '—';
-    let analysis = {}; try { analysis = JSON.parse(s.analysis || '{}'); } catch(e){}
-    const prob = analysis.probabilidade || s.prob || 0;
-    return `<div class="history-item" style="cursor:pointer;" onclick="loadSignalById(${s.id})">
-      <div class="history-dir" style="background:${isBull?'rgba(0,229,160,0.1)':'rgba(255,77,109,0.1)'};color:${isBull?'var(--green)':'var(--red)'};">${dir.toUpperCase()}</div>
-      <div class="history-info">
-        <div class="history-asset">${s.asset}</div>
-        <div class="history-tf" style="font-size:7px;">${ts}</div>
-      </div>
-      <div class="history-result" style="color:var(--text2);">Score ${s.score}/5${prob ? `<br><span style='color:var(--blue);'>Prob ${prob}%</span>` : ''}</div>
-    </div>`;
-  }).join('');
-}
-
-// ── Polling automático
-async function pollBackend() {
-  const signals = await fetchSignals();
-  if (signals) applySignalsToAssets(signals);
-  pollTimer = setTimeout(pollBackend, POLL_INTERVAL);
-}
-
-// ── Trigger análise manual (já existe análise salva no sinal, apenas exibe)
-function triggerAnalysis() {
-  const btn = document.getElementById('analyzeBtn');
-  if (btn && btn.classList.contains('blocked')) return;
-
-  if (activeSignal) {
-    btn.classList.add('loading');
-    btn.innerHTML = '<span>⟳ CARREGANDO ANÁLISE APEX...</span>';
-    setTimeout(() => {
-      renderSignalFromBackend(activeSignal);
-      btn.classList.remove('loading');
-      btn.innerHTML = '<span>✓ ANÁLISE CARREGADA</span>';
-      setTimeout(() => btn.innerHTML = '<span>⚡ ACIONAR ANÁLISE APEX</span>', 2500);
-    }, 800);
-  } else {
-    btn.innerHTML = '<span>⚠ NENHUM SINAL ATIVO</span>';
-    setTimeout(() => btn.innerHTML = '<span>⚡ ACIONAR ANÁLISE APEX</span>', 2000);
-  }
-}
-
-// ══════════════════════════════════════════════════════
-// FUNÇÕES EXISTENTES (mantidas)
-// ══════════════════════════════════════════════════════
-
-// ── TELEGRAM ──
-function copyTG() {
-  navigator.clipboard.writeText(document.getElementById('tgContent').innerText).then(()=>{
-    const b=document.querySelector('.tg-copy-btn'); b.textContent='COPIADO!'; setTimeout(()=>b.textContent='COPIAR',2000);
-  });
-}
-
-// ── CLOCK ──
+// ════════════════════════════════════════════════════════
+// CLOCK
+// ════════════════════════════════════════════════════════
 function tick() {
-  const n=new Date();
-  const M=['JAN','FEV','MAR','ABR','MAI','JUN','JUL','AGO','SET','OUT','NOV','DEZ'];
-  document.getElementById('clock').textContent=`${String(n.getUTCDate()).padStart(2,'0')} ${M[n.getUTCMonth()]} ${n.getUTCFullYear()} — ${String(n.getUTCHours()).padStart(2,'0')}:${String(n.getUTCMinutes()).padStart(2,'0')} UTC`;
+  const n = new Date();
+  const M = ['JAN','FEV','MAR','ABR','MAI','JUN','JUL','AGO','SET','OUT','NOV','DEZ'];
+  setText('clock', `${String(n.getUTCDate()).padStart(2,'0')} ${M[n.getUTCMonth()]} ${n.getUTCFullYear()} — ${String(n.getUTCHours()).padStart(2,'0')}:${String(n.getUTCMinutes()).padStart(2,'0')} UTC`);
 }
 
-// ── INIT ──
+// ════════════════════════════════════════════════════════
+// INIT
+// ════════════════════════════════════════════════════════
 renderAssetBar();
-updateDashboard();
 tick();
 setInterval(tick, 30000);
-
-// Inicia conexão com Railway
-setConnectionStatus('connecting');
+setConn('connecting');
 pollBackend();
 fetchStats();
-setInterval(fetchStats, 60000); // atualiza stats a cada 1min
-
-// ── Atalho manual: recarregar sinais
-function manualRefresh() {
-  setConnectionStatus('connecting');
-  clearTimeout(pollTimer);
-  pollBackend();
-}
+setInterval(fetchStats, 60000);
 </script>
 </body>
 </html>
