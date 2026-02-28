@@ -1,7 +1,6 @@
 """
-APEX HUB — Backend v2.0
-Deploy no Railway (railway.app) — arquivo único, sem configuração externa
-Serve o frontend HTML diretamente em /hub
+APEX HUB — Backend v3.0
+Deploy no Railway (railway.app) — arquivo único
 """
 
 import os, json, sqlite3
@@ -13,7 +12,7 @@ from fastapi import FastAPI, Request, BackgroundTasks
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse, HTMLResponse
 
-app = FastAPI(title="APEX HUB", version="2.0.0")
+app = FastAPI(title="APEX HUB", version="3.0.0")
 app.add_middleware(CORSMiddleware, allow_origins=["*"], allow_methods=["*"], allow_headers=["*"])
 
 # ── Banco de dados ─────────────────────────────────────────────────────────────
@@ -38,7 +37,8 @@ def save_signal(payload, analysis):
     con.execute("""INSERT INTO signals
         (timestamp,asset,direction,score,entry,stop,tp1,tp2,tp3,prob,path_clear,is_weekend,analysis,payload)
         VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)""", (
-        payload.get("timestamp"), payload.get("asset"),
+        payload.get("timestamp", datetime.utcnow().isoformat()),
+        payload.get("asset"),
         sig.get("direction"),
         payload.get("score", {}).get("total", 0),
         lvl.get("entry"), lvl.get("stop"),
@@ -67,27 +67,24 @@ def get_signals(limit=50, asset=None, direction=None):
     return [dict(r) for r in rows]
 
 def get_stats():
-    """Estatísticas globais do banco."""
     init_db()
     con = sqlite3.connect(DB)
     con.row_factory = sqlite3.Row
-    total   = con.execute("SELECT COUNT(*) as n FROM signals").fetchone()["n"]
-    buys    = con.execute("SELECT COUNT(*) as n FROM signals WHERE direction='buy'").fetchone()["n"]
-    sells   = con.execute("SELECT COUNT(*) as n FROM signals WHERE direction='sell'").fetchone()["n"]
-    avg_scr = con.execute("SELECT AVG(score) as v FROM signals").fetchone()["v"] or 0
-    avg_prob= con.execute("SELECT AVG(prob) as v FROM signals WHERE prob > 0").fetchone()["v"] or 0
-    assets  = con.execute("SELECT DISTINCT asset FROM signals ORDER BY asset").fetchall()
+    total    = con.execute("SELECT COUNT(*) as n FROM signals").fetchone()["n"]
+    buys     = con.execute("SELECT COUNT(*) as n FROM signals WHERE direction='buy'").fetchone()["n"]
+    sells    = con.execute("SELECT COUNT(*) as n FROM signals WHERE direction='sell'").fetchone()["n"]
+    avg_scr  = con.execute("SELECT AVG(score) as v FROM signals").fetchone()["v"] or 0
+    avg_prob = con.execute("SELECT AVG(prob) as v FROM signals WHERE prob > 0").fetchone()["v"] or 0
+    assets   = con.execute("SELECT DISTINCT asset FROM signals ORDER BY asset").fetchall()
     con.close()
     return {
-        "total": total,
-        "buys": buys,
-        "sells": sells,
+        "total": total, "buys": buys, "sells": sells,
         "avg_score": round(avg_scr, 2),
         "avg_prob": round(avg_prob, 1),
         "assets": [r["asset"] for r in assets]
     }
 
-# ── Prompt Apex 1.0 ────────────────────────────────────────────────────────────
+# ── Prompt Apex 1.0 S-Tier ────────────────────────────────────────────────────
 def build_prompt(p):
     tfs = p.get("timeframes", {})
     sig = p.get("signal", {})
@@ -101,118 +98,134 @@ def build_prompt(p):
     pr  = p.get("price", {})
     scr = p.get("score", {})
     wk  = p.get("is_weekend", False)
-    direction = sig.get("direction","neutral").upper()
+    direction = sig.get("direction", "neutral").upper()
     path = sig.get("path_clear", False)
-
+    asset = p.get("asset", "?")
     weekend_note = "\n⚠ WEEKEND ATIVO: stops folgados +15%, priorizar TP1, evitar alvos distantes.\n" if wk else ""
 
-    return f"""Você é o APEX 1.0 — Protocolo de Análise Profissional de Trading.
-Analise o ativo {p.get("asset")} e gere análise técnica completa.
+    return f"""Voce e o APEX 1.0 - Protocolo de Analise Profissional de Trading (S-Tier).
+Ative o Comando: $ {asset}
 
-ATIVO: {p.get("asset")} | {tfs.get("principal")} / {tfs.get("confirmacao")} / {tfs.get("entrada")}
-DIREÇÃO: {direction} {"⭐ caminho livre" if path else "⚠ obstruído"} | Score: {scr.get("total")}/5
+MISSAO: Analise profissional institucional com SMC avancado.
+
+ATIVO: {asset} | TFs: {tfs.get("principal")} / {tfs.get("confirmacao")} / {tfs.get("entrada")}
+DIRECAO: {direction} {"CAMINHO LIVRE" if path else "OBSTRUIDO"} | Score: {scr.get("total")}/5
 {weekend_note}
-PREÇO: close={pr.get("close")} high={pr.get("high")} low={pr.get("low")} atr={pr.get("atr14")}
-NÍVEIS: entrada={lvl.get("entry")} stop={lvl.get("stop")} tp1={lvl.get("tp1")} tp2={lvl.get("tp2")} tp3={lvl.get("tp3")}
-FIBONACCI: high={fib.get("high")} low={fib.get("low")} fib382={fib.get("fib382")} fib618={fib.get("fib618")}
-SD ZONES: tipo={sd.get("zone_type")} dentro={sd.get("in_zone")} demand={sd.get("demand_btm")}-{sd.get("demand_top")} supply={sd.get("supply_btm")}-{sd.get("supply_top")}
-KEO v7: sinal={sig.get("type")} er={keo.get("er_kaufman")} sigma={keo.get("sigma")} ema8={keo.get("ema8")} ema24={keo.get("ema24")}
-MM KERNEL: status={mm.get("status")} val={mm.get("value")} adx={mm.get("adx")} slope={mm.get("ema24_slope")}%
-OSC MATRIX: mf={osc.get("money_flow")} hw={osc.get("hyper_wave")} conf={osc.get("confluence")} overflow_bear={osc.get("overflow_bear")} overflow_bull={osc.get("overflow_bull")}
-STOCH RSI: k={st.get("k")} d={st.get("d")} oversold={st.get("oversold")} overbought={st.get("overbought")}
+PRECO: close={pr.get("close")} | high={pr.get("high")} | low={pr.get("low")} | atr14={pr.get("atr14")}
+FIBONACCI KEO: high={fib.get("high")} | low={fib.get("low")} | fib382={fib.get("fib382")} | fib618={fib.get("fib618")}
+SD ZONES: tipo={sd.get("zone_type")} | dentro_zona={sd.get("in_zone")} | demand={sd.get("demand_btm")}-{sd.get("demand_top")} | supply={sd.get("supply_btm")}-{sd.get("supply_top")}
+KEO v7: sinal={sig.get("type")} | er_kaufman={keo.get("er_kaufman")} | er_ok={keo.get("er_ok")} | ema8={keo.get("ema8")} | ema24={keo.get("ema24")}
+MM KERNEL: status={mm.get("status")} | valor={mm.get("value")} | adx={mm.get("adx")} | slope_ema24={mm.get("ema24_slope")}%
+OSC MATRIX: money_flow={osc.get("money_flow")} | hyper_wave={osc.get("hyper_wave")} | confluencia={osc.get("confluence")}
+STOCH RSI: k={st.get("k")} | d={st.get("d")} | oversold={st.get("oversold")} | overbought={st.get("overbought")}
+NIVEIS: entrada={lvl.get("entry")} | stop={lvl.get("stop")} | tp1={lvl.get("tp1")} | tp2={lvl.get("tp2")} | tp3={lvl.get("tp3")}
+SCORE: SD={scr.get("sd")}/1 | KEO={scr.get("keo")}/1 | MM={scr.get("mm_kernel")}/1 | OSC={scr.get("osc_matrix")}/1 | STOCH={scr.get("stoch_rsi")}/1 | TOTAL={scr.get("total")}/5
 
-Responda APENAS com JSON válido, sem texto fora do JSON:
+Analise:
+1. Estrutura SMC: IDM, ChoCh anti-fake, PoL, BSL/SSL
+2. Microestrutura: CVD, agressao, momentum, funding/OI se crypto
+3. Gestao de risco: stop/trailing baseado no ATR {pr.get("atr14")}
+{"4. Weekend: TR (Total Returns) e baixa liquidez" if wk else ""}
+
+Responda APENAS com JSON valido, sem texto fora do JSON:
 {{
   "probabilidade": <0-100>,
   "vies": "<BULLISH|BEARISH|NEUTRO>",
-  "estrutura_smc": "<análise ChoCh, IDM, BSL/SSL, liquidez>",
-  "microestrutura": "<análise volume, momentum, fluxo>",
-  "gestao_risco": "<análise stop, trailing, contexto>",
-  "confluencias": ["<item1>", "<item2>", "<item3>"],
-  "alertas": ["<risco1>", "<risco2>"],
+  "estrutura_smc": "<analise ChoCh, IDM, BSL/SSL, liquidez>",
+  "microestrutura": "<analise volume, momentum, fluxo>",
+  "gestao_risco": "<stop, trailing, contexto de risco>",
+  "confluencias": ["<confluencia 1>", "<confluencia 2>", "<confluencia 3>"],
+  "alertas": ["<risco 1>", "<risco 2>"],
   "tabela_alvos": {{
-    "entrada": {lvl.get("entry")},
-    "stop": {lvl.get("stop")},
-    "tp1": {lvl.get("tp1")},
-    "tp2": {lvl.get("tp2")},
-    "tp3": {lvl.get("tp3")},
-    "rr_ratio": "<calcule o R/R>"
+    "entrada": {lvl.get("entry", 0)},
+    "stop": {lvl.get("stop", 0)},
+    "tp1": {lvl.get("tp1", 0)},
+    "tp2": {lvl.get("tp2", 0)},
+    "tp3": {lvl.get("tp3", 0)},
+    "rr_ratio": "<ex: 1:2.5>"
   }},
-  "resumo_telegram": "<mensagem pronta para o canal, máx 300 chars>"
+  "resumo_telegram": "<mensagem pronta para canal de sinais, max 300 chars, use emojis>"
 }}"""
 
-# ── Claude API ─────────────────────────────────────────────────────────────────
-async def call_claude(prompt):
-    import anthropic
+# ── Claude API ────────────────────────────────────────────────────────────────
+async def call_claude(prompt: str) -> dict:
     key = os.getenv("ANTHROPIC_API_KEY")
     if not key:
-        return {"error": "ANTHROPIC_API_KEY não configurada"}
+        return {"error": "ANTHROPIC_API_KEY nao configurada no Railway"}
     try:
+        import anthropic
         client = anthropic.Anthropic(api_key=key)
         msg = client.messages.create(
             model="claude-opus-4-6",
             max_tokens=1500,
-            system="Você é APEX 1.0, sistema de análise técnica profissional. Responda sempre em JSON válido.",
+            system="Voce e APEX 1.0, protocolo de analise tecnica profissional S-Tier. Responda sempre com JSON valido sem texto fora do JSON.",
             messages=[{"role": "user", "content": prompt}]
         )
-        raw = msg.content[0].text.strip().removeprefix("```json").removeprefix("```").removesuffix("```").strip()
-        return json.loads(raw)
-    except json.JSONDecodeError:
-        return {"error": "parse_error"}
+        raw = msg.content[0].text.strip()
+        if raw.startswith("```"):
+            parts = raw.split("```")
+            raw = parts[1] if len(parts) > 1 else raw
+            if raw.startswith("json"):
+                raw = raw[4:]
+        return json.loads(raw.strip())
+    except json.JSONDecodeError as e:
+        return {"error": f"parse_error: {str(e)}"}
     except Exception as e:
         return {"error": str(e)}
 
-# ── Telegram ───────────────────────────────────────────────────────────────────
-async def send_telegram(text):
-    import httpx
+# ── Telegram ──────────────────────────────────────────────────────────────────
+async def send_telegram(text: str):
     token   = os.getenv("TELEGRAM_BOT_TOKEN")
     chat_id = os.getenv("TELEGRAM_CHAT_ID")
     if not token or not chat_id:
         return
-    async with httpx.AsyncClient() as client:
-        await client.post(
-            f"https://api.telegram.org/bot{token}/sendMessage",
-            json={"chat_id": chat_id, "text": text, "parse_mode": "HTML"},
-            timeout=10
-        )
+    try:
+        import httpx
+        async with httpx.AsyncClient() as client:
+            await client.post(
+                f"https://api.telegram.org/bot{token}/sendMessage",
+                json={"chat_id": chat_id, "text": text, "parse_mode": "HTML"},
+                timeout=10
+            )
+    except Exception as e:
+        print(f"[Telegram] Erro: {e}")
 
-def format_telegram(payload, analysis):
+def format_telegram(payload: dict, analysis: dict) -> str:
     resumo = analysis.get("resumo_telegram", "")
     if resumo:
         return resumo
-    sig = payload.get("signal", {})
-    lvl = payload.get("levels", {})
-    tfs = payload.get("timeframes", {})
-    d   = sig.get("direction","?").upper()
+    sig   = payload.get("signal", {})
+    lvl   = payload.get("levels", {})
+    tfs   = payload.get("timeframes", {})
+    d     = sig.get("direction", "?").upper()
     emoji = "🟢" if d == "BUY" else "🔴"
     star  = " ⭐" if sig.get("path_clear") else ""
     wk    = "\n⚠ <b>Weekend Mode</b>" if payload.get("is_weekend") else ""
-    scr   = payload.get("score",{}).get("total",0)
-    prob  = analysis.get("probabilidade","?")
-    asset = payload.get("asset","?")
-    return (f"{emoji} <b>{d} — {asset}</b>{star}\n"
-            f"⏱ {tfs.get('principal')} | Score: {scr}/5 | Prob: {prob}%\n\n"
-            f"📍 Entrada: <b>{lvl.get('entry')}</b>\n"
-            f"🛑 Stop: <b>{lvl.get('stop')}</b>\n"
-            f"🎯 TP1: <b>{lvl.get('tp1')}</b> | TP2: <b>{lvl.get('tp2')}</b> | TP3: <b>{lvl.get('tp3')}</b>"
-            f"{wk}\n#APEX #{asset.replace('/','')}")
+    scr   = payload.get("score", {}).get("total", 0)
+    prob  = analysis.get("probabilidade", "?")
+    asset = payload.get("asset", "?")
+    return (
+        f"{emoji} <b>{d} — {asset}</b>{star}\n"
+        f"⏱ {tfs.get('principal')} | Score: {scr}/5 | Prob: {prob}%\n\n"
+        f"📍 Entrada: <b>{lvl.get('entry')}</b>\n"
+        f"🛑 Stop: <b>{lvl.get('stop')}</b>\n"
+        f"🎯 TP1: <b>{lvl.get('tp1')}</b> | TP2: <b>{lvl.get('tp2')}</b> | TP3: <b>{lvl.get('tp3')}</b>"
+        f"{wk}\n#APEX #{asset.replace('/','')}"
+    )
 
-# ── Processar sinal em background ──────────────────────────────────────────────
-async def process_signal(payload):
-    asset = payload.get("asset","?")
-    score = payload.get("score",{}).get("total",0)
-    direction = payload.get("signal",{}).get("direction","?")
+# ── Background task ───────────────────────────────────────────────────────────
+async def process_signal(payload: dict):
+    asset     = payload.get("asset", "?")
+    score     = payload.get("score", {}).get("total", 0)
+    direction = payload.get("signal", {}).get("direction", "?")
     print(f"[APEX] {asset} | {direction.upper()} | Score {score}/5")
-
     prompt   = build_prompt(payload)
     analysis = await call_claude(prompt)
-
-    if os.getenv("TELEGRAM_ENABLED","false").lower() == "true":
+    if os.getenv("TELEGRAM_ENABLED", "false").lower() == "true":
         msg = format_telegram(payload, analysis)
         await send_telegram(msg)
-
     save_signal(payload, analysis)
-    print(f"[APEX] {asset} processado. Prob: {analysis.get('probabilidade','?')}%")
+    print(f"[APEX] {asset} processado. Prob: {analysis.get('probabilidade', '?')}%")
 
 # ════════════════════════════════════════════════════════
 # ROTAS
@@ -220,54 +233,42 @@ async def process_signal(payload):
 
 @app.get("/", response_class=HTMLResponse)
 async def root():
-    """Redireciona raiz para o hub."""
-    return HTMLResponse(
-        '<meta http-equiv="refresh" content="0; url=/hub">',
-        status_code=302
-    )
+    return HTMLResponse('<meta http-equiv="refresh" content="0; url=/hub">', status_code=302)
 
 @app.get("/hub", response_class=HTMLResponse)
 async def hub():
-    """Serve o frontend do APEX HUB."""
     hub_file = Path("hub.html")
     if not hub_file.exists():
-        return HTMLResponse("<h1>hub.html não encontrado</h1><p>Verifique o deploy.</p>", status_code=404)
+        return HTMLResponse("<h1>hub.html nao encontrado</h1>", status_code=404)
     return HTMLResponse(hub_file.read_text(encoding="utf-8"))
 
 @app.get("/health")
 async def health():
     stats = get_stats()
-    return {
-        "status": "ok",
-        "version": "2.0.0",
-        "timestamp": datetime.utcnow().isoformat(),
-        "signals_total": stats["total"]
-    }
+    return {"status": "ok", "version": "3.0.0",
+            "timestamp": datetime.utcnow().isoformat(),
+            "signals_total": stats["total"]}
 
 @app.get("/api/stats")
 async def stats():
-    """Estatísticas gerais do sistema."""
     return get_stats()
 
 @app.post("/webhook")
 async def webhook(request: Request, bg: BackgroundTasks):
-    """Recebe o JSON do APEX Aggregator v1 via TradingView Alert."""
     try:
         payload = json.loads(await request.body())
     except Exception:
-        return JSONResponse({"status": "error", "reason": "JSON inválido"}, status_code=400)
+        return JSONResponse({"status": "error", "reason": "JSON invalido"}, status_code=400)
 
     score_total = payload.get("score", {}).get("total", 0)
     score_min   = int(os.getenv("SCORE_MINIMO", "3"))
-
     if score_total < score_min:
-        return JSONResponse({"status": "ignored", "reason": f"Score {score_total} < mínimo {score_min}"})
+        return JSONResponse({"status": "ignored", "reason": f"Score {score_total} < minimo {score_min}"})
 
     tf_aligned        = payload.get("signal", {}).get("tf_aligned", False)
     require_alignment = os.getenv("REQUIRE_TF_ALIGNMENT", "true").lower() == "true"
-
     if require_alignment and not tf_aligned:
-        return JSONResponse({"status": "ignored", "reason": "TFs não alinhados"})
+        return JSONResponse({"status": "ignored", "reason": "TFs nao alinhados"})
 
     bg.add_task(process_signal, payload)
     return JSONResponse({
@@ -288,7 +289,6 @@ async def latest(asset: Optional[str] = None):
 
 @app.delete("/signals/{signal_id}")
 async def delete_signal(signal_id: int):
-    """Remove um sinal pelo ID (para limpeza de testes)."""
     init_db()
     con = sqlite3.connect(DB)
     con.execute("DELETE FROM signals WHERE id=?", (signal_id,))
