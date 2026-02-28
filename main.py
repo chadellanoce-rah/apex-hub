@@ -1,6 +1,7 @@
 """
-APEX HUB — Backend v1.0
-Deploy no Railway (railway.app) — arquivo único, sem configuração
+APEX HUB — Backend v2.0
+Deploy no Railway (railway.app) — arquivo único, sem configuração externa
+Serve o frontend HTML diretamente em /hub
 """
 
 import os, json, sqlite3
@@ -10,12 +11,12 @@ from typing import Optional
 
 from fastapi import FastAPI, Request, BackgroundTasks
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import JSONResponse
+from fastapi.responses import JSONResponse, HTMLResponse
 
-app = FastAPI(title="APEX HUB", version="1.0.0")
+app = FastAPI(title="APEX HUB", version="2.0.0")
 app.add_middleware(CORSMiddleware, allow_origins=["*"], allow_methods=["*"], allow_headers=["*"])
 
-# ── Banco de dados
+# ── Banco de dados ─────────────────────────────────────────────────────────────
 DB = Path("apex.db")
 
 def init_db():
@@ -50,18 +51,43 @@ def save_signal(payload, analysis):
     ))
     con.commit(); con.close()
 
-def get_signals(limit=50, asset=None):
+def get_signals(limit=50, asset=None, direction=None):
     init_db()
     con = sqlite3.connect(DB)
     con.row_factory = sqlite3.Row
+    where, params = [], []
     if asset:
-        rows = con.execute("SELECT * FROM signals WHERE asset=? ORDER BY id DESC LIMIT ?", (asset, limit)).fetchall()
-    else:
-        rows = con.execute("SELECT * FROM signals ORDER BY id DESC LIMIT ?", (limit,)).fetchall()
+        where.append("asset=?"); params.append(asset)
+    if direction:
+        where.append("direction=?"); params.append(direction)
+    clause = ("WHERE " + " AND ".join(where)) if where else ""
+    params.append(limit)
+    rows = con.execute(f"SELECT * FROM signals {clause} ORDER BY id DESC LIMIT ?", params).fetchall()
     con.close()
     return [dict(r) for r in rows]
 
-# ── Prompt Apex 1.0
+def get_stats():
+    """Estatísticas globais do banco."""
+    init_db()
+    con = sqlite3.connect(DB)
+    con.row_factory = sqlite3.Row
+    total   = con.execute("SELECT COUNT(*) as n FROM signals").fetchone()["n"]
+    buys    = con.execute("SELECT COUNT(*) as n FROM signals WHERE direction='buy'").fetchone()["n"]
+    sells   = con.execute("SELECT COUNT(*) as n FROM signals WHERE direction='sell'").fetchone()["n"]
+    avg_scr = con.execute("SELECT AVG(score) as v FROM signals").fetchone()["v"] or 0
+    avg_prob= con.execute("SELECT AVG(prob) as v FROM signals WHERE prob > 0").fetchone()["v"] or 0
+    assets  = con.execute("SELECT DISTINCT asset FROM signals ORDER BY asset").fetchall()
+    con.close()
+    return {
+        "total": total,
+        "buys": buys,
+        "sells": sells,
+        "avg_score": round(avg_scr, 2),
+        "avg_prob": round(avg_prob, 1),
+        "assets": [r["asset"] for r in assets]
+    }
+
+# ── Prompt Apex 1.0 ────────────────────────────────────────────────────────────
 def build_prompt(p):
     tfs = p.get("timeframes", {})
     sig = p.get("signal", {})
@@ -115,7 +141,7 @@ Responda APENAS com JSON válido, sem texto fora do JSON:
   "resumo_telegram": "<mensagem pronta para o canal, máx 300 chars>"
 }}"""
 
-# ── Claude API
+# ── Claude API ─────────────────────────────────────────────────────────────────
 async def call_claude(prompt):
     import anthropic
     key = os.getenv("ANTHROPIC_API_KEY")
@@ -136,7 +162,7 @@ async def call_claude(prompt):
     except Exception as e:
         return {"error": str(e)}
 
-# ── Telegram
+# ── Telegram ───────────────────────────────────────────────────────────────────
 async def send_telegram(text):
     import httpx
     token   = os.getenv("TELEGRAM_BOT_TOKEN")
@@ -151,11 +177,9 @@ async def send_telegram(text):
         )
 
 def format_telegram(payload, analysis):
-    # Prioriza o resumo gerado pelo Claude
     resumo = analysis.get("resumo_telegram", "")
     if resumo:
         return resumo
-    # Fallback manual
     sig = payload.get("signal", {})
     lvl = payload.get("levels", {})
     tfs = payload.get("timeframes", {})
@@ -173,7 +197,7 @@ def format_telegram(payload, analysis):
             f"🎯 TP1: <b>{lvl.get('tp1')}</b> | TP2: <b>{lvl.get('tp2')}</b> | TP3: <b>{lvl.get('tp3')}</b>"
             f"{wk}\n#APEX #{asset.replace('/','')}")
 
-# ── Processar sinal em background
+# ── Processar sinal em background ──────────────────────────────────────────────
 async def process_signal(payload):
     asset = payload.get("asset","?")
     score = payload.get("score",{}).get("total",0)
@@ -188,19 +212,42 @@ async def process_signal(payload):
         await send_telegram(msg)
 
     save_signal(payload, analysis)
-    print(f"[APEX] {asset} processado.")
+    print(f"[APEX] {asset} processado. Prob: {analysis.get('probabilidade','?')}%")
 
-# ════════════════════════════
+# ════════════════════════════════════════════════════════
 # ROTAS
-# ════════════════════════════
+# ════════════════════════════════════════════════════════
 
-@app.get("/")
+@app.get("/", response_class=HTMLResponse)
 async def root():
-    return {"status": "APEX HUB online", "version": "1.0.0"}
+    """Redireciona raiz para o hub."""
+    return HTMLResponse(
+        '<meta http-equiv="refresh" content="0; url=/hub">',
+        status_code=302
+    )
+
+@app.get("/hub", response_class=HTMLResponse)
+async def hub():
+    """Serve o frontend do APEX HUB."""
+    hub_file = Path("hub.html")
+    if not hub_file.exists():
+        return HTMLResponse("<h1>hub.html não encontrado</h1><p>Verifique o deploy.</p>", status_code=404)
+    return HTMLResponse(hub_file.read_text(encoding="utf-8"))
 
 @app.get("/health")
 async def health():
-    return {"status": "ok", "timestamp": datetime.utcnow().isoformat()}
+    stats = get_stats()
+    return {
+        "status": "ok",
+        "version": "2.0.0",
+        "timestamp": datetime.utcnow().isoformat(),
+        "signals_total": stats["total"]
+    }
+
+@app.get("/api/stats")
+async def stats():
+    """Estatísticas gerais do sistema."""
+    return get_stats()
 
 @app.post("/webhook")
 async def webhook(request: Request, bg: BackgroundTasks):
@@ -216,20 +263,34 @@ async def webhook(request: Request, bg: BackgroundTasks):
     if score_total < score_min:
         return JSONResponse({"status": "ignored", "reason": f"Score {score_total} < mínimo {score_min}"})
 
-    tf_aligned       = payload.get("signal", {}).get("tf_aligned", False)
+    tf_aligned        = payload.get("signal", {}).get("tf_aligned", False)
     require_alignment = os.getenv("REQUIRE_TF_ALIGNMENT", "true").lower() == "true"
 
     if require_alignment and not tf_aligned:
         return JSONResponse({"status": "ignored", "reason": "TFs não alinhados"})
 
     bg.add_task(process_signal, payload)
-    return JSONResponse({"status": "received", "asset": payload.get("asset"), "score": score_total})
+    return JSONResponse({
+        "status": "received",
+        "asset": payload.get("asset"),
+        "score": score_total,
+        "direction": payload.get("signal", {}).get("direction")
+    })
 
 @app.get("/signals")
-async def list_signals(limit: int = 50, asset: Optional[str] = None):
-    return {"signals": get_signals(limit=limit, asset=asset)}
+async def list_signals(limit: int = 50, asset: Optional[str] = None, direction: Optional[str] = None):
+    return {"signals": get_signals(limit=limit, asset=asset, direction=direction)}
 
 @app.get("/signals/latest")
 async def latest(asset: Optional[str] = None):
     signals = get_signals(limit=1, asset=asset)
     return {"signal": signals[0] if signals else None}
+
+@app.delete("/signals/{signal_id}")
+async def delete_signal(signal_id: int):
+    """Remove um sinal pelo ID (para limpeza de testes)."""
+    init_db()
+    con = sqlite3.connect(DB)
+    con.execute("DELETE FROM signals WHERE id=?", (signal_id,))
+    con.commit(); con.close()
+    return {"status": "deleted", "id": signal_id}
